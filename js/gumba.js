@@ -4,8 +4,9 @@ export default class Gumba{
     //gumbaAlive = true;
     createObject(){
         this.load.atlas('gumba','assets/spritegumba.png','assets/spritegumba.json');
-        gumba = this.physics.add.sprite(150,500,'gumba');
+        var gumba = this.physics.add.sprite(10,10,'gumba');
         console.log("test");
+        console.log(gumba);
     }
 
     changeDirection(){
