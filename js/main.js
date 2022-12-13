@@ -1,3 +1,5 @@
+import Gumba from './gumba';
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -26,11 +28,15 @@ var cursors;
 var groundLayer, coinLayer;
 var text;
 var score = 0;
-var gumba;
+//var gumba;
 var gumbadead;
-var life;
+var lifecount;
 var lifescore = 3;
-this.death = false;
+//this.death = false;
+
+var gumba = new Gumba();
+console.log(gumba);
+
 
 function preload() {
     // JSON map
@@ -41,7 +47,7 @@ function preload() {
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
     this.load.atlas('player', 'assets/player2.png', 'assets/player.json');
-    this.load.atlas('gumba','assets/spritegumba.png','assets/spritegumba.json');
+    //this.load.atlas('gumba','assets/spritegumba.png','assets/spritegumba.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life','assets/life.png');
@@ -74,20 +80,20 @@ function create() {
     //player.setBounce(0.2); // our player will bounce from items
     player.setCollideWorldBounds(true); // ne peux pas d�passer la carte
 
-    //ajouter gumba
+    /*//ajouter gumba
     gumba = this.physics.add.sprite(100,550,'gumba');
     //gumba.setBounce(0.2);
     gumba.setCollideWorldBounds(true);
-    this.physics.add.collider(groundLayer, gumba);
+    this.physics.add.collider(groundLayer, gumba);*/
 
     /*//Mort d'un gumba
     gumbadead = this.physics.add.sprite(150,550,'gumbadead');
     this.physics.add.collider(groundLayer,gumbadead);*/
 
     //mario life
-    life = this.add.sprite(40,80,'life',{height : '20 px'});
+    /*life = this.add.sprite(40,80,'life',{height : '20 px'});
     life1 = this.add.sprite(110,80,'life',{height : '20 px'});
-    life2 = this.add.sprite(180,80,'life',{height : '20 px'});
+    life2 = this.add.sprite(180,80,'life',{height : '20 px'});*/
 
     // small fix to our player images, we resize the physics body object slightly
     player.body.setSize(player.width, player.height-8);
@@ -159,7 +165,7 @@ function collectCoin(sprite, tile) {
     gumba.anims.play('gumbadeath',true);
     //console.log("test");
 }*/
-gumbaAlive = true;
+var gumbaAlive = true;
 function update(time, delta) {
     
     //faire bouger gumba
@@ -180,14 +186,10 @@ function update(time, delta) {
     }
     
     
-    
-
-    //console.log(player.y);
-    //console.log(death);
     ///////////////////
     //Mort de Mario
     this.physics.add.collider(player,gumba, function (player){
-        if(player.y < 528){
+        if(player.y +15.5 < gumba.y){
             console.log("Mario win");
             gumba.anims.play('gumbadeath',true);
             gumba.setVelocity(0,0);
@@ -196,7 +198,7 @@ function update(time, delta) {
                 gumba.destroy();
             }, 1000);      
         }
-        if(player.y >= 528 && death == false ){
+        if(player.y + 15.5 >= gumba.y  && death == false ){
             death = true;
             lifescore = lifescore -1 ;
             lifecount.setText(lifescore);
