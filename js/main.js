@@ -63,8 +63,9 @@ function create() {
     // collision avec le groundLayer
     groundLayer.setCollisionByExclusion([-1]);
     
-    var gumba = new Gumba();
-    console.log(gumba);
+    this.gumba1 = new Gumba();
+    this.gumba1.createObject(this)
+    // (this.gumba)?console.log(gumba1):null;
 
 
 
