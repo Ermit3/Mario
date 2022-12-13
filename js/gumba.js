@@ -2,9 +2,12 @@
 
 export default class Gumba{
     //gumbaAlive = true;
-    createObject(main){
-        main.load.atlas('gumba','assets/spritegumba.png','assets/spritegumba.json');
-        var gumba = main.physics.add.sprite(155,500,'gumba');
+    createObject(main,groundLayer){
+        main.load.atlas('gumba','./assets/spritegumba.png','assets/spritegumba.json');
+        var gumba = main.physics.add.sprite(100,550,'gumba');
+        //gumba.setBounce(0.2);
+        gumba.setCollideWorldBounds(true);
+        main.physics.add.collider(groundLayer, gumba);
         console.log("test");
         console.log(gumba);
     }
