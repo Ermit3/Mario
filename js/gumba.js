@@ -3,6 +3,7 @@
 export default class Gumba{
     // gumbaAlive = true;
     createObject(main,groundLayer,x,y){
+        this.gumbaAlive = true;
          this.gumba = main.physics.add.sprite(x,y,'gumba');
         // main.load.atlas('gumba','./assets/spritegumba.png','assets/spritegumba.json');
         //gumba.setBounce(0.2);
@@ -13,9 +14,9 @@ export default class Gumba{
     }
 
     changeDirection(){
-        // if(gumbaAlive == true){
+        if(this.gumbaAlive == true){
             // console.log(gumba)
-            console.log(this.gumba)
+            // console.log(this.gumba)
 
             this.gumba.setVelocity(100,0);
             if(this.gumba.body.blocked.right){
@@ -30,31 +31,48 @@ export default class Gumba{
             if(this.gumba.direction === 'left'){
                 this.gumba.setVelocity(-100,0);
             }
-        // }
+        }
     }
     
     addCollider(){
         this.physics.add.collider(groundLayer, gumba);
     }
 
-    collideWithPlayer(){
-        this.physics.add.collider(player,gumba, function (player,gumba){
+    collideWithPlayer(main,player,death,lifescore,lifecount){
+        console.log(this)
+        console.log(this.gumba)
+        console.log(death)
+        console.log(lifecount)
+
+
+
+        main.physics.add.collider(player,this.gumba, function (player,gumba){
+
+            // console.log(player.y)
+            // console.log(gumba.y)
+            // console.log(player.y - gumba.y)
+            // console.log(death)
+
+
+
             if(player.y +15.5 < gumba.y){
-                console.log("Mario win");
+                // console.log("Mario win");
                 gumba.anims.play('gumbadeath',true);
                 gumba.setVelocity(0,0);
-                gumbaAlive = false;
+                this.gumbaAlive = false;
                 setTimeout(() => {
-                    gumba.destroy();
-                }, 1000);      
+                    // gumba.destroy();
+                    // console.log('on est la')    
+                }, 1000);  
             }
             if(player.y + 15.5 >= gumba.y  && death == false ){
                 death = true;
-                lifescore = lifescore -1 ;
-                lifecount.setText(lifescore);
+                // lifescore = lifescore -1 ;
+                // lifecount.setText(lifescore);
+                console.log("Mario lose 1");    
                 setTimeout(() => {
                     console.log("Mario lose");        
-                    death =false ;
+                    main.death =false ;
                 }, 5000);
                           
             }

@@ -32,7 +32,7 @@ var score = 0;
 var gumbadead;
 var lifecount;
 var lifescore = 3;
-//this.death = false;
+var death = false;
 
 function preload() {
     // JSON map
@@ -63,18 +63,6 @@ function create() {
     // collision avec le groundLayer
     groundLayer.setCollisionByExclusion([-1]);
     
-    this.gumba3 = new Gumba();
-    this.gumba3.createObject(this,groundLayer,50,550)
-
-    console.log(this.gumba);
-
-    this.gumba1 = new Gumba();
-    this.gumba1.createObject(this,groundLayer,100,550)
-
-    console.log(this.gumba1);
-
-    this.gumba2 = new Gumba();
-    this.gumba2.createObject(this,groundLayer,300,550)
 
 
     // add coins
@@ -89,6 +77,30 @@ function create() {
     player = this.physics.add.sprite(200, 200, 'player');
     //player.setBounce(0.2); // our player will bounce from items
     player.setCollideWorldBounds(true); // ne peux pas d�passer la carte
+
+    this.gumba3 = new Gumba();
+    this.gumba3.createObject(this,groundLayer,50,550)
+    this.gumba3.collideWithPlayer(this,player,death,lifescore,lifecount)
+
+    console.log(this.gumba);
+
+    this.gumba1 = new Gumba();
+    this.gumba1.createObject(this,groundLayer,100,550)
+
+    this.gumba1.collideWithPlayer(this,player,death,lifescore,lifecount)
+
+    console.log(this.gumba1);
+
+    this.gumba2 = new Gumba();
+    this.gumba2.createObject(this,groundLayer,300,550)
+    this.gumba2.collideWithPlayer(this,player,death,lifescore,lifecount)
+
+
+
+
+
+
+
 
     /*//ajouter gumba
     gumba = this.physics.add.sprite(100,550,'gumba');
