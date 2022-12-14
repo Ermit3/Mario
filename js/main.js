@@ -64,16 +64,17 @@ function create() {
     groundLayer.setCollisionByExclusion([-1]);
     
     this.gumba3 = new Gumba();
-    this.gumba3.createObject(this,groundLayer,50,550,this.gumba3)
+    this.gumba3.createObject(this,groundLayer,50,550)
 
+    console.log(this.gumba);
 
     this.gumba1 = new Gumba();
-    this.gumba1.createObject(this,groundLayer,100,550,this.gumba1)
+    this.gumba1.createObject(this,groundLayer,100,550)
 
     console.log(this.gumba1);
 
     this.gumba2 = new Gumba();
-    this.gumba2.createObject(this,groundLayer,300,550,this.gumba2)
+    this.gumba2.createObject(this,groundLayer,300,550)
 
 
     // add coins
@@ -177,7 +178,9 @@ function collectCoin(sprite, tile) {
 
 function update(time, delta) {
 
-    this.gumba1.changeDirection(this.gumba1)
+    this.gumba1.changeDirection()
+    this.gumba2.changeDirection()
+    this.gumba3.changeDirection()
     
     //faire bouger gumba
     // if(gumbaAlive == true){

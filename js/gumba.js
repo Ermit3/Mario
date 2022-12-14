@@ -2,33 +2,33 @@
 
 export default class Gumba{
     // gumbaAlive = true;
-    createObject(main,groundLayer,x,y,gumba){
-         gumba = main.physics.add.sprite(x,y,'gumba');
+    createObject(main,groundLayer,x,y){
+         this.gumba = main.physics.add.sprite(x,y,'gumba');
         // main.load.atlas('gumba','./assets/spritegumba.png','assets/spritegumba.json');
         //gumba.setBounce(0.2);
-        gumba.setCollideWorldBounds(true);
-        main.physics.add.collider(groundLayer, gumba);
+        this.gumba.setCollideWorldBounds(true);
+        main.physics.add.collider(groundLayer, this.gumba);
         console.log("test");
-        console.log(gumba);
-        return gumba
-
+        console.log(this.gumba);
     }
 
-    changeDirection(gumba){
+    changeDirection(){
         // if(gumbaAlive == true){
-            console.log(gumba)
-            // gumba.setVelocity(100,0);
-            if(gumba.body.blocked.right){
-                gumba.direction='left';
+            // console.log(gumba)
+            console.log(this.gumba)
+
+            this.gumba.setVelocity(100,0);
+            if(this.gumba.body.blocked.right){
+                this.gumba.direction='left';
             }
-            if(gumba.body.blocked.left){
-                gumba.direction='right';
+            if(this.gumba.body.blocked.left){
+                this.gumba.direction='right';
             }
-            if(gumba.direction === 'right'){
-                gumba.setVelocity(100,0);
+            if(this.gumba.direction === 'right'){
+                this.gumba.setVelocity(100,0);
             }
-            if(gumba.direction === 'left'){
-                gumba.setVelocity(-100,0);
+            if(this.gumba.direction === 'left'){
+                this.gumba.setVelocity(-100,0);
             }
         // }
     }
