@@ -34,8 +34,6 @@ var lifecount;
 var lifescore = 3;
 //this.death = false;
 
-
-
 function preload() {
     // JSON map
     this.load.tilemapTiledJSON('map', 'assets/map2.json',null);
@@ -45,13 +43,15 @@ function preload() {
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
     this.load.atlas('player', 'assets/player2.png', 'assets/player.json');
-    //this.load.atlas('gumba','assets/spritegumba.png','assets/spritegumba.json');
+    this.load.atlas('gumba','assets/spritegumba.png','assets/spritegumba.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life','assets/life.png');
     //this.load.image('gumbadead','assets/deathgumba.png');
 
-}
+
+
+}    
 
 function create() {
 
@@ -63,10 +63,17 @@ function create() {
     // collision avec le groundLayer
     groundLayer.setCollisionByExclusion([-1]);
     
-    this.gumba1 = new Gumba();
-    this.gumba1.createObject(this,groundLayer)
-    // (this.gumba)?console.log(gumba1):null;
+    this.gumba3 = new Gumba();
+    this.gumba3.createObject(this,groundLayer,50,550,this.gumba3)
 
+
+    this.gumba1 = new Gumba();
+    this.gumba1.createObject(this,groundLayer,100,550,this.gumba1)
+
+    console.log(this.gumba1);
+
+    this.gumba2 = new Gumba();
+    this.gumba2.createObject(this,groundLayer,300,550,this.gumba2)
 
 
     // add coins
@@ -169,6 +176,8 @@ function collectCoin(sprite, tile) {
 }*/
 
 function update(time, delta) {
+
+    this.gumba1.changeDirection(this.gumba1)
     
     //faire bouger gumba
     // if(gumbaAlive == true){

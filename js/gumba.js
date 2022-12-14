@@ -1,20 +1,23 @@
 
 
 export default class Gumba{
-    //gumbaAlive = true;
-    createObject(main,groundLayer){
-        main.load.atlas('gumba','./assets/spritegumba.png','assets/spritegumba.json');
-        var gumba = main.physics.add.sprite(100,550,'gumba');
+    // gumbaAlive = true;
+    createObject(main,groundLayer,x,y,gumba){
+         gumba = main.physics.add.sprite(x,y,'gumba');
+        // main.load.atlas('gumba','./assets/spritegumba.png','assets/spritegumba.json');
         //gumba.setBounce(0.2);
         gumba.setCollideWorldBounds(true);
         main.physics.add.collider(groundLayer, gumba);
         console.log("test");
         console.log(gumba);
+        return gumba
+
     }
 
-    changeDirection(){
-        if(gumbaAlive == true){
-            gumba.setVelocity(100,0);
+    changeDirection(gumba){
+        // if(gumbaAlive == true){
+            console.log(gumba)
+            // gumba.setVelocity(100,0);
             if(gumba.body.blocked.right){
                 gumba.direction='left';
             }
@@ -27,7 +30,7 @@ export default class Gumba{
             if(gumba.direction === 'left'){
                 gumba.setVelocity(-100,0);
             }
-        }
+        // }
     }
     
     addCollider(){
