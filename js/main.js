@@ -191,46 +191,4 @@ function update(time, delta) {
     this.gumba3.changeDirection()
 
     Mario(player, cursors);
-
-    //faire bouger gumba
-    // if(gumbaAlive == true){
-    //     gumba.setVelocity(100,0);
-    //     if(gumba.body.blocked.right){
-    //         gumba.direction='left';
-    //     }
-    //     if(gumba.body.blocked.left){
-    //         gumba.direction='right';
-    //     }
-    //     if(gumba.direction === 'right'){
-    //         gumba.setVelocity(100,0);
-    //     }
-    //     if(gumba.direction === 'left'){
-    //         gumba.setVelocity(-100,0);
-    //     }
-    // }
-
-
-    ///////////////////
-    //Mort de Mario
-    // this.physics.add.collider(player,gumba, function (player){
-    //     if(player.y +15.5 < gumba.y){
-    //         console.log("Mario win");
-    //         gumba.anims.play('gumbadeath',true);
-    //         gumba.setVelocity(0,0);
-    //         gumbaAlive = false;
-    //         setTimeout(() => {
-    //             gumba.destroy();
-    //         }, 1000);      
-    //     }
-    //     if(player.y + 15.5 >= gumba.y  && death == false ){
-    //         death = true;
-    //         lifescore = lifescore -1 ;
-    //         lifecount.setText(lifescore);
-    //         setTimeout(() => {
-    //             console.log("Mario lose");        
-    //             death =false ;
-    //         }, 5000);
-
-    //     }
-    // });
 }
