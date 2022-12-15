@@ -1,4 +1,5 @@
 import Gumba from './gumba';
+import Mario from './mario';
 
 var config = {
     type: Phaser.AUTO,
@@ -189,7 +190,7 @@ function update(time, delta) {
     this.gumba2.changeDirection()
     this.gumba3.changeDirection()
 
-    console.log(this.gumba1.collide);
+    Mario(player, cursors);
 
     //faire bouger gumba
     // if(gumbaAlive == true){
@@ -232,24 +233,4 @@ function update(time, delta) {
 
     //     }
     // });
-
-    //mouvements de mario
-    if (cursors.left.isDown) {
-        player.body.setVelocityX(-200);
-        player.anims.play('walk', true); // walk left
-        player.flipX = true; // flip the sprite to the left
-    }
-    else if (cursors.right.isDown) {
-        player.body.setVelocityX(200);
-        player.anims.play('walk', true);
-        player.flipX = false; // use the original sprite looking to the right
-    } else {
-        player.body.setVelocityX(0);
-        player.anims.play('idle', true);
-    }
-    // jump 
-    if (cursors.up.isDown && player.body.onFloor()) {
-        player.body.setVelocityY(-400);
-        console.log(this.gumba1.gumbaAlive);
-    }
 }

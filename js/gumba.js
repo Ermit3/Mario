@@ -59,7 +59,6 @@ export default class Gumba {
                     console.log("Mario lose");
                     main.death = false;
                 }, 5000);
-
             }
         });
     }
