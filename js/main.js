@@ -79,21 +79,21 @@ function create() {
     player.setCollideWorldBounds(true); // ne peux pas d�passer la carte
 
     this.gumba3 = new Gumba();
-    this.gumba3.createObject(this,groundLayer,50,550)
-    this.gumba3.collideWithPlayer(this,player,death,lifescore,lifecount)
+    this.gumba3.createObject(this,'gumba3',groundLayer,50,550)
+    this.gumba3.collideWithPlayer(this,player,'gumba3',death)
 
     console.log(this.gumba);
 
     this.gumba1 = new Gumba();
-    this.gumba1.createObject(this,groundLayer,100,550)
+    this.gumba1.createObject(this,'gumba1',groundLayer,100,550)
 
-    this.gumba1.collideWithPlayer(this,player,death,lifescore,lifecount)
+    this.gumba1.collideWithPlayer(this,player,'gumba1',death)
 
     console.log(this.gumba1);
 
     this.gumba2 = new Gumba();
-    this.gumba2.createObject(this,groundLayer,300,550)
-    this.gumba2.collideWithPlayer(this,player,death,lifescore,lifecount)
+    this.gumba2.createObject(this,'gumba2',groundLayer,300,550)
+    this.gumba2.collideWithPlayer(this,player,'gumba2',death)
 
 
 
@@ -172,6 +172,7 @@ function create() {
     });
     // fix the text to the camera
     lifecount.setScrollFactor(0);
+
 }
 
 
