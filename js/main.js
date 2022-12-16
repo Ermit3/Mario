@@ -25,6 +25,7 @@ var game = new Phaser.Game(config);
 var map;
 var layer;
 var player;
+var mario;
 var cursors;
 var groundLayer, coinLayer;
 var text;
@@ -75,21 +76,29 @@ function create() {
     this.physics.world.bounds.height = groundLayer.height;
 
     // ajout player     
-    player = this.physics.add.sprite(200, 200, 'player');
-    //player.setBounce(0.2); // our player will bounce from items
-    player.setCollideWorldBounds(true); // ne peux pas d�passer la carte
+    // player2 = this.physics.add.sprite(200, 200, 'player');
+    // //player.setBounce(0.2); // our player will bounce from items
+    // player.setCollideWorldBounds(true); // ne peux pas d�passer la carte
+    // player.isAlive = true;
+    // player.lifescore = 3;
+    // player.isGhost = false;
+
+    mario = new Mario(this, groundLayer, 200, 200);
+    player = mario.player;
 
     this.gumba3 = new Gumba(this, groundLayer, 50, 550);
-    this.gumba3.collideWithPlayer(this, player, death, lifescore, lifecount);
-
+    // this.gumba3.collideWithPlayer(this, player);
     this.gumba1 = new Gumba(this, groundLayer, 100, 550);
-    this.gumba1.collideWithPlayer(this, player, death, lifescore, lifecount);
-
+    // this.gumba1.collideWithPlayer(this, player);
     this.gumba2 = new Gumba(this, groundLayer, 300, 550);
-    this.gumba2.collideWithPlayer(this, player, death, lifescore, lifecount);
+    // this.gumba2.collideWithPlayer(this, player);
 
     // small fix to our player images, we resize the physics body object slightly
     player.body.setSize(player.width, player.height - 8);
+
+    mario.collideWithEnemy(this, this.gumba1.gumba);
+    mario.collideWithEnemy(this, this.gumba2.gumba);
+    mario.collideWithEnemy(this, this.gumba3.gumba);
 
     // player will collide with the level tiles 
     this.physics.add.collider(groundLayer, player);
@@ -137,7 +146,7 @@ function create() {
     // fix the text to the camera
     text.setScrollFactor(0);
 
-    lifecount = this.add.text(100, 570, '3', {
+    lifecount = this.add.text(100, 570, "" + player.lifescore + "", {
         fontSize: '20px',
         fill: '#ffffff'
     });
@@ -156,9 +165,13 @@ function collectCoin(sprite, tile) {
 
 function update(time, delta) {
 
-    this.gumba1.changeDirection()
-    this.gumba2.changeDirection()
-    this.gumba3.changeDirection()
+    this.gumba1.changeDirection();
+    this.gumba2.changeDirection();
+    this.gumba3.changeDirection();
 
-    Mario(player, cursors);
+    // MarioMove(player, cursors);
+    mario.playerMove(player, cursors);
+
+    // MarioDeath(player);
+    mario.playerDeath(player);
 }

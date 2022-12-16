@@ -36,31 +36,38 @@ export default class Gumba {
         this.physics.add.collider(groundLayer, gumba);
     }
 
-    collideWithPlayer(main, player, death) {
+    // collideWithPlayer(main, player, death) {
 
-        main.physics.add.collider(player, this.gumba, function (player, gumba) {
+    //     main.physics.add.collider(player, this.gumba, function (player, gumba) {
 
-            if (player.y + 15.5 < gumba.y) {
-                // console.log("Mario win");
-                gumba.anims.play('gumbadeath', true);
-                gumba.setVelocity(0, 0);
-                gumba.gumbaAlive = false;
-                setTimeout(() => {
-                    console.log("OK");
-                    gumba.destroy();
-                }, 250);
-            }
-            if (player.y + 15.5 >= gumba.y && death == false) {
-                death = true;
-                // lifescore = lifescore -1 ;
-                // lifecount.setText(lifescore);
-                console.log("Mario lose 1");
-                setTimeout(() => {
-                    console.log("Mario lose");
-                    main.death = false;
-                }, 5000);
-            }
-        });
-    }
+    //         if (player.y + 15.5 < gumba.y) {
+    //             // console.log("Mario win");
+    //             gumba.anims.play('gumbadeath', true);
+    //             gumba.setVelocity(0, 0);
+    //             gumba.gumbaAlive = false;
+    //             setTimeout(() => {
+    //                 console.log("destroy");
+    //                 gumba.destroy();
+    //             }, 250);
+    //         }
+    //         if (player.y + 15.5 >= gumba.y && player.isAlive == true && player.isGhost === false) {
+    //             // if (player.lifescore > 0) {
+    //             //     player.lifescore = player.lifescore - 1;
+    //             //     console.log(player.lifescore);
+    //             // } else {
+    //             //     player.isAlive = false;
+    //             //     console.log(player.lifescore);
+    //             // }
+    //             // player.isGhost = true;
+    //             // console.log("Mario lose 1");
+    //             // setTimeout(() => {
+    //             //     console.log("TIMER");
+    //             //     player.isGhost = false
+    //             // }, 5000);
+    //             player.enemyTouch = true;
+    //             console.log("touch");
+    //         }
+    //     });
+    // }
 
 }
