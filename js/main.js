@@ -1,4 +1,5 @@
 import Gumba from './gumba';
+import Koopa from './koopa';
 import Mario from './mario';
 
 var config = {
@@ -46,6 +47,7 @@ function preload() {
     // player animations
     this.load.atlas('player', 'assets/player2.png', 'assets/player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
+    this.load.atlas('koopa', 'assets/KoopaSprite.png','assets/KoopaSprite.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -86,6 +88,8 @@ function create() {
     mario = new Mario(this, groundLayer, 200, 200);
     player = mario.player;
 
+    this.koopa1 = new Koopa(this, groundLayer,650,450);
+
     this.gumba3 = new Gumba(this, groundLayer, 50, 550);
     // this.gumba3.collideWithPlayer(this, player);
     this.gumba1 = new Gumba(this, groundLayer, 100, 550);
@@ -121,6 +125,16 @@ function create() {
         frames: [{ key: 'player', frame: 'p1_stand' }],
         frameRate: 10,
     });
+
+    //koopa animation
+    this.anims.create({
+        key: 'left',
+        frames: [{ key: 'koopa', frame: 'koopaAliveLeft' }],
+    })
+    this.anims.create({
+        key: 'right',
+        frames: [{ key: 'koopa', frame: 'koopaAliveRight' }],
+    })
 
     //gumba animation
     this.anims.create({
@@ -164,6 +178,8 @@ function collectCoin(sprite, tile) {
 }
 
 function update(time, delta) {
+
+    this.koopa1.changeDirection();
 
     this.gumba1.changeDirection();
     this.gumba2.changeDirection();
