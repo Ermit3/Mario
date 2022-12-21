@@ -39,6 +39,13 @@ function preload() {
     this.load.tilemapTiledJSON('map', 'assets/map2.json',null);
     // tiles
     this.load.image('tiles', 'assets/tiles3.png',{frameWidth :64});
+    this.load.image('bonusTile', 'assets/bonusTile.png',{frameWidth :64});
+    this.load.image('brickTile', 'assets/brickTile.png',{frameWidth :64});
+    this.load.image('breackbrick1', 'assets/breackbrick1.png',{frameWidth :64});
+    this.load.image('breackbrick2', 'assets/breackbrick2.png',{frameWidth :64});
+
+
+
     // coin
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
@@ -74,14 +81,20 @@ function create() {
     this.physics.world.bounds.height = groundLayer.height;
 
     // ajout player     
-    player = this.physics.add.sprite(200, 200, 'player');
+    player = this.physics.add.sprite(300, 350, 'player');
     //player.setBounce(0.2); // our player will bounce from items
+    // player.setSize(300, 300, true);
+
     player.setCollideWorldBounds(true); // ne peux pas d�passer la carte
+    player.lifescore = lifescore;
+    player.level = 1;
+
+    (player.level == 1)?player.setScale(1.1):player.setScale(1.6)
+
 
     this.gumba3 = new Gumba();
     this.gumba3.createObject(this,'gumba3',groundLayer,50,550)
     this.gumba3.collideWithPlayer(this,player,'gumba3',death)
-
     console.log(this.gumba);
 
     this.gumba1 = new Gumba();
@@ -95,34 +108,12 @@ function create() {
     this.gumba2.createObject(this,'gumba2',groundLayer,300,550)
     this.gumba2.collideWithPlayer(this,player,'gumba2',death)
 
-
-
-
-
-
-
-
-    /*//ajouter gumba
-    gumba = this.physics.add.sprite(100,550,'gumba');
-    //gumba.setBounce(0.2);
-    gumba.setCollideWorldBounds(true);
-    this.physics.add.collider(groundLayer, gumba);*/
-
-    /*//Mort d'un gumba
-    gumbadead = this.physics.add.sprite(150,550,'gumbadead');
-    this.physics.add.collider(groundLayer,gumbadead);*/
-
-    //mario life
-    /*life = this.add.sprite(40,80,'life',{height : '20 px'});
-    life1 = this.add.sprite(110,80,'life',{height : '20 px'});
-    life2 = this.add.sprite(180,80,'life',{height : '20 px'});*/
-
-    // small fix to our player images, we resize the physics body object slightly
-    player.body.setSize(player.width, player.height-8);
     
     // player will collide with the level tiles 
     this.physics.add.collider(groundLayer, player);
     
+    groundLayer.setTileIndexCallback(3, breackBrick, this);
+    groundLayer.setTileIndexCallback(4, breackBrick, this);
 
     coinLayer.setTileIndexCallback(7, collectCoin, this);
     // // when the player overlaps with a tile with index 17, collectCoin 
@@ -142,6 +133,12 @@ function create() {
         frameRate: 10,
     });
 
+    this.anims.create({
+        key: 'testtiles',
+        frames: [{key: 'tiles', frame: 2}],
+        frameRate: 10,
+    });
+
     //gumba animation
     this.anims.create({
         key : 'gumbadeath',
@@ -152,6 +149,7 @@ function create() {
 
     // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setZoom(1);
     // make the camera follow the player
     this.cameras.main.startFollow(player);
 
@@ -175,6 +173,76 @@ function create() {
 
 }
 
+function breackBrick(sprite,tile) {
+
+    // console.log( player.y/64)
+    var playerTile = groundLayer.getTileAtWorldXY(player.x, player.y, true)
+    if(playerTile.y -tile.y  == 1){
+        console.log(tile.index)
+        if(tile.index==3){
+            tile.index=11
+            var box =this.add.image(tile.x*64+32, tile.y*64+24, 'bonusTile');
+            var y = 24
+            for (var i = 1 ; i <= 10; i++){
+                if (i < 5){
+                    setTimeout(() => {y = y-4;box.setPosition(tile.x*64+32, tile.y*64+y);}, i*30);
+                } else{
+                    
+                    setTimeout(() => {y = y+4;box.setPosition(tile.x*64+32, tile.y*64+y);}, i*30);  
+                }        
+            }
+            setTimeout(() => {box.destroy();tile.index=7;bonus(this,tile)}, 310);  
+        }
+        if(tile.index==4){
+            tile.index=11
+            var box =this.add.image(tile.x*64+32, tile.y*64+24, 'brickTile');
+            var y = 24
+            if(player.level == 1){
+                for (var i = 1 ; i <= 10; i++){
+                    if (i < 5){
+                        setTimeout(() => {y = y-4;box.setPosition(tile.x*64+32, tile.y*64+y);}, i*30);
+                    } else{
+                        
+                        setTimeout(() => {y = y+4;box.setPosition(tile.x*64+32, tile.y*64+y);}, i*30);  
+                    }        
+                }
+                setTimeout(() => {box.destroy(),tile.index=4}, 310); 
+            } else{
+                groundLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
+
+                for (var i = 1 ; i < 6; i++){
+                    if (i < 4){
+                    setTimeout(() => {y = y-4;;box.setTexture('breackbrick1');box.setPosition(tile.x*64+32, tile.y*64+y);}, i*50);
+                     }else
+                    setTimeout(() => {y = y-4;;box.setTexture('breackbrick2');box.setPosition(tile.x*64+32, tile.y*64+y);}, i*50);
+                     }
+                setTimeout(() => {box.destroy()}, 310); 
+            }
+        }
+
+    
+    // tile.index=4
+    // groundLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
+    // groundLayer.At(tile.x-64, tile.y)
+
+    return false;
+    }
+
+
+}
+
+function bonus(main,tile){
+    console.log('bonus');
+    var bonusss = main.physics.add.sprite(tile.x*64+32, tile.y*64+32-64,'gumba');
+    main.physics.add.collider(groundLayer, bonusss);
+    main.physics.add.overlap(player, bonusss, (player, bonusss) => {
+        console.log("Y'a contact")
+        player.level = 2;
+        bonusss.destroy()
+    });
+
+
+}
 
 // this function will be called when the player touches a coin
 function collectCoin(sprite, tile) {
@@ -191,52 +259,13 @@ function collectCoin(sprite, tile) {
 
 function update(time, delta) {
 
+     lifecount.setText(player.lifescore);
+
     this.gumba1.changeDirection()
     this.gumba2.changeDirection()
     this.gumba3.changeDirection()
-    
-    //faire bouger gumba
-    // if(gumbaAlive == true){
-    //     gumba.setVelocity(100,0);
-    //     if(gumba.body.blocked.right){
-    //         gumba.direction='left';
-    //     }
-    //     if(gumba.body.blocked.left){
-    //         gumba.direction='right';
-    //     }
-    //     if(gumba.direction === 'right'){
-    //         gumba.setVelocity(100,0);
-    //     }
-    //     if(gumba.direction === 'left'){
-    //         gumba.setVelocity(-100,0);
-    //     }
-    // }
-    
-    
-    ///////////////////
-    //Mort de Mario
-    // this.physics.add.collider(player,gumba, function (player){
-    //     if(player.y +15.5 < gumba.y){
-    //         console.log("Mario win");
-    //         gumba.anims.play('gumbadeath',true);
-    //         gumba.setVelocity(0,0);
-    //         gumbaAlive = false;
-    //         setTimeout(() => {
-    //             gumba.destroy();
-    //         }, 1000);      
-    //     }
-    //     if(player.y + 15.5 >= gumba.y  && death == false ){
-    //         death = true;
-    //         lifescore = lifescore -1 ;
-    //         lifecount.setText(lifescore);
-    //         setTimeout(() => {
-    //             console.log("Mario lose");        
-    //             death =false ;
-    //         }, 5000);
-                      
-    //     }
-    // });
 
+if(player.level == 2)player.setScale(1.6);
     //mouvements de mario
     if (cursors.left.isDown)
     {
