@@ -47,7 +47,7 @@ function preload() {
     // player animations
     this.load.atlas('player', 'assets/player2.png', 'assets/player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
-    this.load.atlas('koopa', 'assets/KoopaSprite.png','assets/KoopaSprite.json');
+    this.load.atlas('koopa', 'assets/KoopaSprite2.png','assets/KoopaSprite2.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -129,11 +129,11 @@ function create() {
     //koopa animation
     this.anims.create({
         key: 'left',
-        frames: [{ key: 'koopa', frame: 'koopaAliveLeft' }],
+        frames: [{ key: 'koopa', frame: 'Koopa2' }],
     })
     this.anims.create({
         key: 'right',
-        frames: [{ key: 'koopa', frame: 'koopaAliveRight' }],
+        frames: [{ key: 'koopa', frame: 'Koopa1' }],
     })
 
     //gumba animation
