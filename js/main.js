@@ -1,4 +1,5 @@
 import Gumba from './gumba';
+import Koopa from './koopa';
 import Mario from './mario';
 
 var config = {
@@ -51,6 +52,7 @@ function preload() {
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
     this.load.atlas('death', 'assets/player3.png', 'assets/player3.json');
+    this.load.atlas('koopa','assets/KoopaSprite2.png','assets/KoopaSprite2.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -88,6 +90,10 @@ function create() {
     /// MARIO
     mario = new Mario(this, groundLayer, 200, 200);
     player = mario.player;
+
+    //KOOPA
+    this.koopa1 = new Koopa(this, groundLayer, 400, 550);
+
     /// GUMBA
     this.gumba3 = new Gumba(this, groundLayer, 50, 550);
     this.gumba1 = new Gumba(this, groundLayer, 100, 550);
@@ -111,6 +117,17 @@ function create() {
     groundLayer.setTileIndexCallback(4, breackBrick, this);
     // END TILES //
 
+
+    //Animation des KOOPA
+    this.anims.create({
+        key: 'left',
+        frames: [{ key: 'koopa', frame: 'Koopa2' }],
+    })
+    this.anims.create({
+        key: 'right',
+        frames: [{ key: 'koopa', frame: 'Koopa1' }],
+    })
+    // FIN Animation des KOOPA
     coinLayer.setTileIndexCallback(7, collectCoin, this);
     // // when the player overlaps with a tile with index 17, collectCoin 
     // // will be called    
@@ -289,6 +306,8 @@ function update(time, delta) {
     } else if (this.gameOver) {
         return
     }
+
+    this.koopa1.changeDirection();
 
     this.gumba1.changeDirection();
     this.gumba2.changeDirection();
