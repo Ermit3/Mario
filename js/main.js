@@ -233,7 +233,7 @@ function breackBrick(sprite,tile) {
 
 function bonus(main,tile){
     console.log('bonus');
-    var bonusss = main.physics.add.sprite(tile.x*64+32, tile.y*64+32-64,'gumba');
+    var bonusss = main.physics.add.sprite(tile.x*64+32, tile.y*64+32-64,'coin');
     main.physics.add.collider(groundLayer, bonusss);
     main.physics.add.overlap(player, bonusss, (player, bonusss) => {
         console.log("Y'a contact")
