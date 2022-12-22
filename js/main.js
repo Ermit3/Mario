@@ -41,6 +41,10 @@ function preload() {
     this.load.tilemapTiledJSON('map', 'assets/map2.json', null);
     // tiles
     this.load.image('tiles', 'assets/tiles3.png', { frameWidth: 64 });
+    this.load.image('bonusTile', 'assets/bonusTile.png', { frameWidth: 64 });
+    this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 64 });
+    this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
+    this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
     // coin
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
@@ -102,6 +106,10 @@ function create() {
     this.physics.add.collider(groundLayer, player);
     // FIN PLAYER PHYSICS //
 
+    // TILES PHYSICS
+    groundLayer.setTileIndexCallback(3, breackBrick, this);
+    groundLayer.setTileIndexCallback(4, breackBrick, this);
+    // END TILES //
 
     coinLayer.setTileIndexCallback(7, collectCoin, this);
     // // when the player overlaps with a tile with index 17, collectCoin 
@@ -192,6 +200,77 @@ function create() {
     this.restartText.setScrollFactor(0);
     this.restartText.setStroke('#000', 2)
     // FIN TEXT //
+}
+
+function breackBrick(sprite, tile) {
+
+    // console.log( player.y/64)
+    var playerTile = groundLayer.getTileAtWorldXY(player.x, player.y, true)
+    if (playerTile.y - tile.y == 1) {
+        console.log(tile.index)
+        if (tile.index == 3) {
+            tile.index = 11
+            var box = this.add.image(tile.x * 64 + 32, tile.y * 64 + 24, 'bonusTile');
+            var y = 24
+            for (var i = 1; i <= 10; i++) {
+                if (i < 5) {
+                    setTimeout(() => { y = y - 4; box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 30);
+                } else {
+
+                    setTimeout(() => { y = y + 4; box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 30);
+                }
+            }
+            setTimeout(() => { box.destroy(); tile.index = 7; bonus(this, tile) }, 310);
+        }
+        if (tile.index == 4) {
+            tile.index = 11
+            var box = this.add.image(tile.x * 64 + 32, tile.y * 64 + 24, 'brickTile');
+            var y = 24
+            if (player.level == 1) {
+                for (var i = 1; i <= 10; i++) {
+                    if (i < 5) {
+                        setTimeout(() => { y = y - 4; box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 30);
+                    } else {
+
+                        setTimeout(() => { y = y + 4; box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 30);
+                    }
+                }
+                setTimeout(() => { box.destroy(), tile.index = 4 }, 310);
+            } else {
+                groundLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
+
+                for (var i = 1; i < 6; i++) {
+                    if (i < 4) {
+                        setTimeout(() => { y = y - 4;; box.setTexture('breackbrick1'); box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 50);
+                    } else
+                        setTimeout(() => { y = y - 4;; box.setTexture('breackbrick2'); box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 50);
+                }
+                setTimeout(() => { box.destroy() }, 310);
+            }
+        }
+
+
+        // tile.index=4
+        // groundLayer.removeTileAt(tile.x, tile.y); // remove the tile/coin
+        // groundLayer.At(tile.x-64, tile.y)
+
+        return false;
+    }
+
+
+}
+
+function bonus(main, tile) {
+    console.log('bonus');
+    var bonusss = main.physics.add.sprite(tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'coin');
+    main.physics.add.collider(groundLayer, bonusss);
+    main.physics.add.overlap(player, bonusss, (player, bonusss) => {
+        console.log("Y'a contact")
+        player.level = 2;
+        bonusss.destroy()
+    });
+
+
 }
 
 

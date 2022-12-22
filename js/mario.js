@@ -19,6 +19,8 @@ export default class Mario {
         this.player.lifescore = 1;
         this.player.isGhost = false;
         this.player.depth = 1; // z-index du texte
+        this.player.level = 1; //
+        (this.player.level == 1) ? this.player.setScale(1.1) : this.player.setScale(1.6)
     }
 
     playerMove(player, cursors, main) {
