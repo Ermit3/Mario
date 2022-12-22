@@ -107,6 +107,8 @@ function create() {
     mario.collideWithEnemy(this, this.gumba2.gumba);
     mario.collideWithEnemy(this, this.gumba3.gumba);
 
+    mario.collideWithEnemy(this, this.koopa1.koopa);
+
     // PLAYER PHYSICS
     // player will collide with the level tiles 
     this.physics.add.collider(groundLayer, player);
@@ -126,6 +128,10 @@ function create() {
     this.anims.create({
         key: 'right',
         frames: [{ key: 'koopa', frame: 'Koopa1' }],
+    })
+    this.anims.create({
+        key :'koopadeath',
+        frames :[{key : 'koopa', frame:'koopaDead'}],
     })
     // FIN Animation des KOOPA
     coinLayer.setTileIndexCallback(7, collectCoin, this);
