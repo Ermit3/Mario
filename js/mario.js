@@ -55,6 +55,20 @@ export default class Mario {
         }
     }
 
+    collideWithKoopa(main, koopa){
+        main.physics.add.overlap(this.player, koopa , function(player, koopa){
+            if (player.y + 15.5 < koopa.y && player.isAlive == true){
+                koopa.anims.play('koopadeath', true);
+                koopa.setVelocity(0,0);
+                koopa.koopaAlive = false;
+                setTimeout(() => {
+                    console.log('koopa dead');
+                    koopa.destroy();
+                }, 250);
+            }
+        } );
+    }
+
     collideWithEnemy(main, enemy) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
             if (player.y + 15.5 < enemy.y && player.isAlive == true) {

@@ -1,6 +1,7 @@
 import Gumba from './gumba';
 import Koopa from './koopa';
 import Mario from './mario';
+import Enemy from './enemy';
 
 var config = {
     type: Phaser.AUTO,
@@ -91,13 +92,15 @@ function create() {
     mario = new Mario(this, groundLayer, 200, 200);
     player = mario.player;
 
+    //ENEMY
+
     //KOOPA
     this.koopa1 = new Koopa(this, groundLayer, 400, 550);
 
     /// GUMBA
-    this.gumba3 = new Gumba(this, groundLayer, 50, 550);
-    this.gumba1 = new Gumba(this, groundLayer, 100, 550);
-    this.gumba2 = new Gumba(this, groundLayer, 300, 550);
+    this.gumba3 = new Gumba(this, groundLayer, 50, 550,'gumba');
+    this.gumba1 = new Gumba(this, groundLayer, 100, 550,'gumba');
+    this.gumba2 = new Gumba(this, groundLayer, 300, 550,'gumba');
     // FIN APPARITION //
 
     // small fix to our player images, we resize the physics body object slightly
@@ -107,7 +110,7 @@ function create() {
     mario.collideWithEnemy(this, this.gumba2.gumba);
     mario.collideWithEnemy(this, this.gumba3.gumba);
 
-    mario.collideWithEnemy(this, this.koopa1.koopa);
+    mario.collideWithKoopa(this, this.koopa1.koopa);
 
     // PLAYER PHYSICS
     // player will collide with the level tiles 
@@ -313,11 +316,11 @@ function update(time, delta) {
         return
     }
 
-    this.koopa1.changeDirection();
+    //this.koopa1.changeDirection();
 
-    this.gumba1.changeDirection();
-    this.gumba2.changeDirection();
-    this.gumba3.changeDirection();
+    this.gumba1.changeDirection(this.gumba1);
+    this.gumba2.changeDirection(this.gumba2);
+    this.gumba3.changeDirection(this.gumba3);
 
     // MarioMove(player, cursors);
     mario.playerMove(player, cursors, this);

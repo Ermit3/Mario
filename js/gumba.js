@@ -1,19 +1,30 @@
+import Enemy from './enemy';
 
-
-export default class Gumba {
+export default class Gumba extends Enemy {
 
     static gumba;
 
-    constructor(main, groundLayer, x, y) {
+    constructor(main, groundLayer, x, y,tile){
+        super(main, groundLayer, x, y,tile);
+    }
+
+
+
+}
+
+
+    /* constructor(main, groundLayer, x, y) {
         this.gumba = main.physics.add.sprite(x, y, 'gumba');
-        this.gumba.gumbaAlive = true;
+        this.gumba.enemyAlive = true;
         // main.load.atlas('gumba','./assets/spritegumba.png','assets/spritegumba.json');
         //gumba.setBounce(0.2);
         this.gumba.setCollideWorldBounds(true);
         main.physics.add.collider(groundLayer, this.gumba);
     }
+ */
+    
 
-    changeDirection() {
+    /* changeDirection() {
         if (this.gumba.gumbaAlive == true) {
 
             this.gumba.setVelocity(100, 0);
@@ -30,11 +41,11 @@ export default class Gumba {
                 this.gumba.setVelocity(-100, 0);
             }
         }
-    }
+    } */
 
-    addCollider() {
+    /* addCollider() {
         this.physics.add.collider(groundLayer, gumba);
-    }
+    } */
 
     // collideWithPlayer(main, player, death) {
 
@@ -70,4 +81,3 @@ export default class Gumba {
     //     });
     // }
 
-}

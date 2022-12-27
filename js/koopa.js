@@ -8,9 +8,9 @@ export default class Koopa {
         main.physics.add.collider(groundlayer, this.koopa);
     }
 
-    addCollider() {
+    /* addCollider() {
         this.physics.add.collider(groundLayer, koopa);
-    }
+    } */
 
     changeDirection() {
         if (this.koopa.koopaAlive == true) {
