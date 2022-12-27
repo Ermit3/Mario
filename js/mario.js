@@ -7,6 +7,30 @@ function isGhost(player) {
     // }
 }
 
+// function isGhost(player) {
+//     // player.alpha = player.alpha == 1 ? 0.2 : 1;
+//     player.isGhost = true;
+
+//     for (var i = 0; i <= 10; i++) {
+//         if (i % 2 == 0) {
+//             var ghost1 = setTimeout(() => {
+//                 player.alpha = 1;
+//             }, i * 100);
+//         } else {
+//             var ghost2 = setTimeout(() => {
+//                 player.alpha = 0.1
+//             }, i * 100);
+//         }
+//         if (i == 10) {
+//             clearTimeout(ghost1)
+//             clearTimeout(ghost2)
+//             player.isGhost = false
+//             console.log(i)
+//             console.log('clear');
+//         }
+//     }
+// }
+
 export default class Mario {
     player;
 
@@ -16,22 +40,30 @@ export default class Mario {
         this.player.setCollideWorldBounds(true);
         main.physics.add.collider(groundLayer, this.player);
         this.player.isAlive = true;
-        this.player.lifescore = 1;
+        this.player.lifescore = 0;
         this.player.isGhost = false;
         this.player.depth = 1; // z-index du texte
         this.player.level = 1; //
-        (this.player.level == 1) ? this.player.setScale(1.1) : this.player.setScale(1.6)
+        (this.player.level == 1) ? this.player.setScale(0.7) : this.player.setScale(0.9)
     }
 
     playerMove(player, cursors, main) {
         if (player.isAlive) {
-            if (cursors.left.isDown) {
+            if (cursors.left.isDown && cursors.space.isUp) {
                 player.body.setVelocityX(-200);
                 player.anims.play('walk', true); // walk left
                 player.flipX = true; // flip the sprite to the left
             }
-            else if (cursors.right.isDown) {
+            else if (cursors.right.isDown && cursors.space.isUp) {
                 player.body.setVelocityX(200);
+                player.anims.play('walk', true);
+                player.flipX = false; // use the original sprite looking to the right
+            } else if (cursors.left.isDown && cursors.space.isDown) {
+                player.body.setVelocityX(-400);
+                player.anims.play('walk', true);
+                player.flipX = true; // use the original sprite looking to the right
+            } else if (cursors.right.isDown && cursors.space.isDown) {
+                player.body.setVelocityX(400);
                 player.anims.play('walk', true);
                 player.flipX = false; // use the original sprite looking to the right
             } else {
@@ -43,14 +75,14 @@ export default class Mario {
                 player.anims.play('jump', true); // Active when player not on the ground
             }
             if (cursors.up.isDown && player.body.onFloor()) {
-                player.body.setVelocityY(-400);
+                player.body.setVelocityY(-460);
             }
             // Debug cursor
             if (cursors.down.isDown && player.body.onFloor()) {
                 console.log("Lifecount " + player.lifescore);
                 console.log("Alive " + player.isAlive);
                 console.log("Ghost " + player.isGhost);
-                console.log(main);
+                console.log(player.level);
             }
         }
     }
@@ -76,8 +108,9 @@ export default class Mario {
 
     playerDeath(player, main) {
         if (player.enemyTouch === true) {
-            if (player.lifescore > 0) {
+            if (player.lifescore > 0 && player.isGhost == false) {
                 player.lifescore = player.lifescore - 1;
+                player.setScale(0.7)
                 console.log(player.lifescore);
                 player.enemyTouch = false // 
                 isGhost(player) // Frame d'invinsibilité

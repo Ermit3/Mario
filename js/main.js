@@ -42,15 +42,16 @@ function preload() {
     // tiles
     this.load.image('tiles', 'assets/tiles3.png', { frameWidth: 64 });
     this.load.image('bonusTile', 'assets/bonusTile.png', { frameWidth: 64 });
+    this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 64 });
     this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 64 });
     this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
     this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
+    this.load.atlas('mystery_box', 'assets/mystery_tiles.png', 'assets/mystery_tiles.json');
     // coin
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
-    this.load.atlas('death', 'assets/player3.png', 'assets/player3.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -95,7 +96,7 @@ function create() {
     // FIN APPARITION //
 
     // small fix to our player images, we resize the physics body object slightly
-    player.body.setSize(player.width, player.height - 8);
+    // player.body.setSize(player.width, player.height - 8);
 
     mario.collideWithEnemy(this, this.gumba1.gumba);
     mario.collideWithEnemy(this, this.gumba2.gumba);
@@ -147,6 +148,15 @@ function create() {
     this.anims.create({
         key: 'gumbadeath',
         frames: [{ key: 'gumba', frame: 'sprite25' }],
+    })
+    ///TILES
+    this.anims.create({
+        key: 'tiles_on',
+        frames: [{ key: 'mystery_box', frame: 'box_1' }],
+    })
+    this.anims.create({
+        key: 'tiles_off',
+        frames: [{ key: 'mystery_box', frame: 'box_4' }],
     })
     // FIN SPRITE //
 
@@ -216,11 +226,16 @@ function breackBrick(sprite, tile) {
                 if (i < 5) {
                     setTimeout(() => { y = y - 4; box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 30);
                 } else {
-
                     setTimeout(() => { y = y + 4; box.setPosition(tile.x * 64 + 32, tile.y * 64 + y); }, i * 30);
                 }
             }
-            setTimeout(() => { box.destroy(); tile.index = 7; bonus(this, tile) }, 310);
+            setTimeout(() => {
+                box.destroy()
+                box = this.add.image(tile.x * 64 + 32, tile.y * 64 + 32, 'bonusTileOff');
+                box.setScale(0.4)
+                tile.index = 7;
+                bonus(this, tile)
+            }, 310);
         }
         if (tile.index == 4) {
             tile.index = 11
@@ -267,6 +282,8 @@ function bonus(main, tile) {
     main.physics.add.overlap(player, bonusss, (player, bonusss) => {
         console.log("Y'a contact")
         player.level = 2;
+        player.lifescore = 1;
+        player.setScale(1)
         bonusss.destroy()
     });
 
