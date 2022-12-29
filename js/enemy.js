@@ -13,7 +13,7 @@ export default class Enemy{
     changeDirection() {
         
         if (this.enemy.enemyAlive == true) {
-            console.log('here');
+            
             this.enemy.setVelocity(100, 0);
             if (this.enemy.body.blocked.right) {
                 this.enemy.direction = 'left';
