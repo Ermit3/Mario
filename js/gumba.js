@@ -1,4 +1,4 @@
-import Enemy from './enemy';
+/* import Enemy from './enemy';
 
 export default class Gumba extends Enemy {
 
@@ -10,7 +10,7 @@ export default class Gumba extends Enemy {
 
 
 
-}
+} */
 
 
     /* constructor(main, groundLayer, x, y) {

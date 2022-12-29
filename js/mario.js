@@ -69,16 +69,16 @@ export default class Mario {
         } );
     }
 
-    collideWithEnemy(main, enemy) {
+    collideWithEnemy(main, enemy,death) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
             if (player.y + 15.5 < enemy.y && player.isAlive == true) {
                 player.body.setVelocityY(-200);
-                enemy.anims.play('gumbadeath', true);
+                enemy.anims.play(death, true);
                 enemy.setVelocity(0, 0);
-                enemy.gumbaAlive = false;
+                enemy.enemyAlive = false;
                 setTimeout(() => {
                     console.log("destroy");
-                    gumba.destroy();
+                    enemy.destroy();
                 }, 250);
             }
             if (player.y + 15.5 >= enemy.y && player.isAlive == true && player.isGhost === false) {

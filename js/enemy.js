@@ -10,21 +10,43 @@ export default class Enemy{
     }
 
 
-    changeDirection(enemy) {
-        if (enemy.enemyAlive == true) {
+    changeDirection() {
+        
+        if (this.enemy.enemyAlive == true) {
+            console.log('here');
+            this.enemy.setVelocity(100, 0);
+            if (this.enemy.body.blocked.right) {
+                this.enemy.direction = 'left';
+            }
+            if (this.enemy.body.blocked.left) {
+                this.enemy.direction = 'right';
+            }
+            if (this.enemy.direction === 'right') {
+                this.enemy.setVelocity(100, 0);
+            }
+            if (this.enemy.direction === 'left') {
+                this.enemy.setVelocity(-100, 0);
+            }
+        }
+    }
 
-            enemy.setVelocity(100, 0);
-            if (enemy.body.blocked.right) {
-                enemy.direction = 'left';
+    changeDirectionKoopa() {
+        
+        if (this.enemy.enemyAlive == true) {
+            this.enemy.setVelocity(100, 0);
+            if (this.enemy.body.blocked.right) {
+                this.enemy.direction = 'left';
             }
-            if (enemy.body.blocked.left) {
-                enemy.direction = 'right';
+            if (this.enemy.body.blocked.left) {
+                this.enemy.direction = 'right';
             }
-            if (enemy.direction === 'right') {
-                enemy.setVelocity(100, 0);
+            if (this.enemy.direction === 'right') {
+                this.enemy.setVelocity(100, 0);
+                this.enemy.anims.play('right', true);
             }
-            if (enemy.direction === 'left') {
-                enemy.setVelocity(-100, 0);
+            if (this.enemy.direction === 'left') {
+                this.enemy.setVelocity(-100, 0);
+                this.enemy.anims.play('left', true);
             }
         }
     }
