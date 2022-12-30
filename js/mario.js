@@ -84,9 +84,8 @@ export default class Mario {
                 }
                 if(death == 'koopadeath'){
                     console.log('koopa');
-                    setTimeout(() => {
-                        
-                    }, 250);
+                    enemy.koopaShell = true;                    
+                    
                 }
                 
             }
