@@ -75,7 +75,7 @@ export default class Mario {
                 player.body.setVelocityY(-200);
                 enemy.anims.play(death, true);
                 enemy.setVelocity(0, 0);
-                enemy.enemyAlive = false;
+                enemy.enemyAlive = false;              
                 if(death == 'gumbadeath'){
                     console.log('gumba');
                     setTimeout(() => {
@@ -84,8 +84,24 @@ export default class Mario {
                 }
                 if(death == 'koopadeath'){
                     console.log('koopa');
-                    enemy.koopaShell = true;                    
-                    
+                    enemy.KoopaShell = enemy.KoopaShell + 1;
+                    console.log(enemy.KoopaShell);
+                    if(enemy.KoopaShell == 3){
+                        enemy.setVelocity(100, 0);
+                        if (enemy.body.blocked.right) {
+                            enemy.direction = 'left';
+                        }
+                        if (enemy.body.blocked.left) {
+                            enemy.direction = 'right';
+                        }
+                        if (enemy.direction === 'right') {
+                            enemy.setVelocity(100, 0);
+                        }
+                        if (enemy.direction === 'left') {
+                            enemy.setVelocity(-100, 0);
+                        }
+                    }
+                                             
                 }
                 
             }

@@ -5,6 +5,7 @@ export default class Enemy{
     constructor(main, groundLayer, x, y,tile) {
         this.enemy = main.physics.add.sprite(x, y, tile);
         this.enemy.enemyAlive = true;
+        this.enemy.KoopaShell=0;
         this.KoopaMario = false;
         this.enemy.setCollideWorldBounds(true);
         main.physics.add.collider(groundLayer, this.enemy);
