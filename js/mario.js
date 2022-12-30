@@ -76,10 +76,19 @@ export default class Mario {
                 enemy.anims.play(death, true);
                 enemy.setVelocity(0, 0);
                 enemy.enemyAlive = false;
-                setTimeout(() => {
-                    console.log("destroy");
-                    enemy.destroy();
-                }, 250);
+                if(death == 'gumbadeath'){
+                    console.log('gumba');
+                    setTimeout(() => {
+                        enemy.destroy();
+                    }, 250);
+                }
+                if(death == 'koopadeath'){
+                    console.log('koopa');
+                    setTimeout(() => {
+                        
+                    }, 250);
+                }
+                
             }
             if (player.y + 15.5 >= enemy.y && player.isAlive == true && player.isGhost === false) {
                 player.enemyTouch = true;

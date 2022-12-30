@@ -323,6 +323,7 @@ function update(time, delta) {
     this.gumba2.changeDirection(this.gumba2); */
     this.gumba3.changeDirection();
 
+    //this.koopa1.ShellMovement();
     // MarioMove(player, cursors);
     mario.playerMove(player, cursors, this);
 
