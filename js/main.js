@@ -1,6 +1,7 @@
 import Gumba from './gumba';
 import Mario from './mario';
 import Mushroom from './mushroom';
+import Bonus from './bonus';
 
 var config = {
     type: Phaser.AUTO,
@@ -48,12 +49,14 @@ function preload() {
     this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
     this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
     this.load.atlas('mystery_box', 'assets/mystery_tiles.png', 'assets/mystery_tiles.json');
-    // mushroom
+    // bonus
     this.load.image('mushroom', 'assets/mushroom.png');
+    this.load.image('flower', 'assets/flower.png');
     // coin
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
+    this.load.atlas('player2', 'assets/complete_mario.png', 'assets/complete_mario.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
 
     //this.load.image('gumba','assets/gumba.png');
@@ -133,6 +136,11 @@ function create() {
     this.anims.create({
         key: 'idle',
         frames: [{ key: 'player', frame: 'p1_stand' }],
+        frameRate: 10,
+    });
+    this.anims.create({
+        key: 'idle2',
+        frames: [{ key: 'player2', frame: 'mario_p_idle' }],
         frameRate: 10,
     });
     // 
@@ -303,17 +311,26 @@ function bonus(main, tile) {
     // main.physics.add.collider(groundLayer, mushroom2);
     // mushroom2.setCollideWorldBounds(true);
     // move(mushroom2);
+    if (player.level == 1) {
+        var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
+        mushroom.changeDirection();
+        var bonus = mushroom.bonus;
+    } else if (player.level == 2) {
+        var flower = new Bonus(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'flower');
+        var bonus = flower.bonus;
+    } else {
+        return
+    }
 
-    var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
-    mushroom.changeDirection();
-
-    main.physics.add.overlap(player, mushroom.bonus, (player, mushroom) => {
+    main.physics.add.overlap(player, bonus, (player, bonus) => {
         console.log("Y'a contact");
-        mario.levelUp(main);
-        mushroom.destroy();
+        if (bonus.name == "mushroom" || bonus.name == "flower") {
+            mario.levelUp(main);
+        } else {
+
+        }
+        bonus.destroy();
     });
-
-
 }
 
 

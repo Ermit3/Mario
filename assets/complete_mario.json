@@ -1,0 +1,476 @@
+{
+    "frames": [
+        {
+            "filename": "mario_p_idle",
+            "frame": {
+                "x": 67,
+                "y": 46,
+                "w": 13,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 16
+            }
+        },
+        {
+            "filename": "mario_p_walk01",
+            "frame": {
+                "x": 13,
+                "y": 17,
+                "w": 14,
+                "h": 15
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 14,
+                "h": 15
+            },
+            "sourceSize": {
+                "w": 14,
+                "h": 15
+            }
+        },
+        {
+            "filename": "mario_p_walk02",
+            "frame": {
+                "x": 0,
+                "y": 17,
+                "w": 12,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 12,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 12,
+                "h": 16
+            }
+        },
+        {
+            "filename": "mario_p_walk03",
+            "frame": {
+                "x": 84,
+                "y": 66,
+                "w": 16,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 16
+            }
+        },
+        {
+            "filename": "mario_p_stop",
+            "frame": {
+                "x": 18,
+                "y": 0,
+                "w": 14,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 14,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 14,
+                "h": 16
+            }
+        },
+        {
+            "filename": "mario_p_jump",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 17,
+                "h": 16
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 17,
+                "h": 16
+            },
+            "sourceSize": {
+                "w": 17,
+                "h": 16
+            }
+        },
+        {
+            "filename": "mario_p_death",
+            "frame": {
+                "x": 84,
+                "y": 83,
+                "w": 15,
+                "h": 14
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 15,
+                "h": 14
+            },
+            "sourceSize": {
+                "w": 15,
+                "h": 14
+            }
+        },
+        {
+            "filename": "mario_l_idle",
+            "frame": {
+                "x": 50,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_l_walk01",
+            "frame": {
+                "x": 50,
+                "y": 33,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_l_walk02",
+            "frame": {
+                "x": 34,
+                "y": 67,
+                "w": 14,
+                "h": 31
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 14,
+                "h": 31
+            },
+            "sourceSize": {
+                "w": 14,
+                "h": 31
+            }
+        },
+        {
+            "filename": "mario_l_stop",
+            "frame": {
+                "x": 33,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_l_jump",
+            "frame": {
+                "x": 84,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_l_walk03",
+            "frame": {
+                "x": 49,
+                "y": 67,
+                "w": 16,
+                "h": 30
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 30
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 30
+            }
+        },
+        {
+            "filename": "mario_l_squat",
+            "frame": {
+                "x": 67,
+                "y": 0,
+                "w": 16,
+                "h": 22
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 22
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 22
+            }
+        },
+        {
+            "filename": "mario_f_idle",
+            "frame": {
+                "x": 84,
+                "y": 33,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_f_walk03",
+            "frame": {
+                "x": 0,
+                "y": 34,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_f_walk02",
+            "frame": {
+                "x": 17,
+                "y": 34,
+                "w": 14,
+                "h": 31
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 14,
+                "h": 31
+            },
+            "sourceSize": {
+                "w": 14,
+                "h": 31
+            }
+        },
+        {
+            "filename": "mario_f_stop",
+            "frame": {
+                "x": 17,
+                "y": 67,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_f_jump",
+            "frame": {
+                "x": 0,
+                "y": 67,
+                "w": 16,
+                "h": 32
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 32
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 32
+            }
+        },
+        {
+            "filename": "mario_f_walk01",
+            "frame": {
+                "x": 66,
+                "y": 67,
+                "w": 16,
+                "h": 30
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 30
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 30
+            }
+        },
+        {
+            "filename": "mario_f_throw",
+            "frame": {
+                "x": 32,
+                "y": 34,
+                "w": 16,
+                "h": 30
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 30
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 30
+            }
+        },
+        {
+            "filename": "mario_f_squat",
+            "frame": {
+                "x": 67,
+                "y": 23,
+                "w": 16,
+                "h": 22
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 22
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 22
+            }
+        }
+    ],
+    "meta": {
+        "app": "https://www.leshylabs.com/apps/sstool/",
+        "version": "Leshy SpriteSheet Tool v0.8.4",
+        "image": "complete_mario.png",
+        "size": {
+            "w": 100,
+            "h": 99
+        },
+        "scale": 1
+    }
+}
