@@ -3,6 +3,7 @@ import Koopa from './koopa'; */
 import Mario from './mario';
 import Enemy from './enemy';
 import Mushroom from './mushroom';
+import Bonus from "./bonus";
 
 var config = {
     type: Phaser.AUTO,
@@ -57,8 +58,7 @@ function preload() {
     // player animations
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
-    this.load.atlas('death', 'assets/player3.png', 'assets/player3.json');
-    this.load.atlas('koopa','assets/KoopaSprite2.png','assets/KoopaSprite2.json');
+    this.load.atlas('koopa', 'assets/KoopaSprite2.png', 'assets/KoopaSprite2.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -100,10 +100,10 @@ function create() {
     //ENEMY
 
     //KOOPA
-    this.koopa1 = new Enemy(this, groundLayer, 400, 550,'koopa');
+    this.koopa1 = new Enemy(this, groundLayer, 400, 550, 'koopa');
 
     /// GUMBA
-    this.gumba3 = new Enemy(this, groundLayer, 50, 550,'gumba');
+    this.gumba3 = new Enemy(this, groundLayer, 50, 550, 'gumba');
     /* this.gumba1 = new Gumba(this, groundLayer, 100, 550,'gumba');
     this.gumba2 = new Gumba(this, groundLayer, 300, 550,'gumba'); */
     // FIN APPARITION //
@@ -113,8 +113,8 @@ function create() {
 
     /* mario.collideWithEnemy(this, this.gumba1.gumba);
     mario.collideWithEnemy(this, this.gumba2.gumba); */
-    mario.collideWithEnemy(this, this.gumba3.enemy,'gumbadeath');
-    mario.collideWithEnemy(this, this.koopa1.enemy,'koopadeath');
+    mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
+    mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
 
@@ -139,8 +139,8 @@ function create() {
         frames: [{ key: 'koopa', frame: 'Koopa1' }],
     })
     this.anims.create({
-        key :'koopadeath',
-        frames :[{key : 'koopa', frame:'koopaDead'}],
+        key: 'koopadeath',
+        frames: [{ key: 'koopa', frame: 'koopaDead' }],
     })
     // FIN Animation des KOOPA
     coinLayer.setTileIndexCallback(7, collectCoin, this);
@@ -306,42 +306,31 @@ function breackBrick(sprite, tile) {
 
 }
 
-function move(obj) {
-    if (obj != undefined) {
-        obj.body.setVelocityX(75);
-        if (obj.body.blocked.right) {
-            obj.direction = 'left';
-            console.log("block");
-        }
-        if (obj.body.blocked.left) {
-            obj.direction = 'right';
-            console.log("block");
-        }
-        if (obj.direction === 'right') {
-            obj.setVelocity(100, 0);
-        }
-        if (obj.direction === 'left') {
-            obj.setVelocity(-100, 0);
-        }
-    }
-}
-
 function bonus(main, tile) {
     // var mushroom2 = main.physics.add.sprite(tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
     // main.physics.add.collider(groundLayer, mushroom2);
     // mushroom2.setCollideWorldBounds(true);
     // move(mushroom2);
+    if (player.level == 1) {
+        var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
+        mushroom.changeDirection();
+        var bonus = mushroom.bonus;
+    } else if (player.level == 2) {
+        var flower = new Bonus(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'flower');
+        var bonus = flower.bonus;
+    } else {
+        return
+    }
 
-    var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
-    mushroom.changeDirection();
-
-    main.physics.add.overlap(player, mushroom.bonus, (player, mushroom) => {
+    main.physics.add.overlap(player, bonus, (player, bonus) => {
         console.log("Y'a contact");
-        mario.levelUp(main);
-        mushroom.destroy();
+        if (bonus.name == "mushroom" || bonus.name == "flower") {
+            mario.levelUp(main);
+        } else {
+
+        }
+        bonus.destroy();
     });
-
-
 }
 
 
