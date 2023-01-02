@@ -1,5 +1,7 @@
-import Gumba from './gumba';
+/* import Gumba from './gumba';
+import Koopa from './koopa'; */
 import Mario from './mario';
+import Enemy from './enemy';
 import Mushroom from './mushroom';
 
 var config = {
@@ -55,6 +57,7 @@ function preload() {
     // player animations
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
+    this.load.atlas('death', 'assets/player3.png', 'assets/player3.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -92,18 +95,27 @@ function create() {
     /// MARIO
     mario = new Mario(this, groundLayer, 200, 200);
     player = mario.player;
+
+    //ENEMY
+
+    //KOOPA
+    this.koopa1 = new Enemy(this, groundLayer, 400, 550,'koopa');
+
     /// GUMBA
-    this.gumba3 = new Gumba(this, groundLayer, 50, 550);
-    this.gumba1 = new Gumba(this, groundLayer, 100, 550);
-    this.gumba2 = new Gumba(this, groundLayer, 300, 550);
+    this.gumba3 = new Enemy(this, groundLayer, 50, 550,'gumba');
+    /* this.gumba1 = new Gumba(this, groundLayer, 100, 550,'gumba');
+    this.gumba2 = new Gumba(this, groundLayer, 300, 550,'gumba'); */
     // FIN APPARITION //
 
     // small fix to our player images, we resize the physics body object slightly
     // player.body.setSize(player.width, player.height - 8);
 
-    mario.collideWithEnemy(this, this.gumba1.gumba);
-    mario.collideWithEnemy(this, this.gumba2.gumba);
-    mario.collideWithEnemy(this, this.gumba3.gumba);
+    /* mario.collideWithEnemy(this, this.gumba1.gumba);
+    mario.collideWithEnemy(this, this.gumba2.gumba); */
+    mario.collideWithEnemy(this, this.gumba3.enemy,'gumbadeath');
+    mario.collideWithEnemy(this, this.koopa1.enemy,'koopadeath');
+
+    //mario.collideWithKoopa(this, this.koopa1.koopa);
 
     // PLAYER PHYSICS
     // player will collide with the level tiles 
@@ -115,6 +127,21 @@ function create() {
     groundLayer.setTileIndexCallback(4, breackBrick, this);
     // END TILES //
 
+
+    //Animation des KOOPA
+    this.anims.create({
+        key: 'left',
+        frames: [{ key: 'koopa', frame: 'Koopa2' }],
+    })
+    this.anims.create({
+        key: 'right',
+        frames: [{ key: 'koopa', frame: 'Koopa1' }],
+    })
+    this.anims.create({
+        key :'koopadeath',
+        frames :[{key : 'koopa', frame:'koopaDead'}],
+    })
+    // FIN Animation des KOOPA
     coinLayer.setTileIndexCallback(7, collectCoin, this);
     // // when the player overlaps with a tile with index 17, collectCoin 
     // // will be called    
@@ -333,10 +360,13 @@ function update(time, delta) {
         return
     }
 
-    this.gumba1.changeDirection();
-    this.gumba2.changeDirection();
+    this.koopa1.changeDirectionKoopa();
+
+    /* this.gumba1.changeDirection(this.gumba1);
+    this.gumba2.changeDirection(this.gumba2); */
     this.gumba3.changeDirection();
 
+    //this.koopa1.ShellMovement();
     // MarioMove(player, cursors);
     mario.playerMove(player, cursors, this);
 

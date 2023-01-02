@@ -94,17 +94,56 @@ export default class Mario {
         }
     }
 
-    collideWithEnemy(main, enemy) {
+    collideWithKoopa(main, koopa){
+        main.physics.add.overlap(this.player, koopa , function(player, koopa){
+            if (player.y + 15.5 < koopa.y && player.isAlive == true){
+                koopa.anims.play('koopadeath', true);
+                koopa.setVelocity(0,0);
+                koopa.koopaAlive = false;
+                setTimeout(() => {
+                    console.log('koopa dead');
+                    koopa.destroy();
+                }, 250);
+            }
+        } );
+    }
+
+    collideWithEnemy(main, enemy,death) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
             if (player.y + 15.5 < enemy.y && player.isAlive == true) {
                 player.body.setVelocityY(-200);
-                enemy.anims.play('gumbadeath', true);
+                enemy.anims.play(death, true);
                 enemy.setVelocity(0, 0);
-                enemy.gumbaAlive = false;
-                setTimeout(() => {
-                    console.log("destroy");
-                    gumba.destroy();
-                }, 250);
+                enemy.enemyAlive = false;              
+                if(death == 'gumbadeath'){
+                    console.log('gumba');
+                    setTimeout(() => {
+                        enemy.destroy();
+                    }, 250);
+                }
+                if(death == 'koopadeath'){
+                    console.log('koopa');
+                    enemy.KoopaShell = enemy.KoopaShell + 1;
+                    //console.log(enemy.KoopaShell);
+                    if(enemy.KoopaShell >= 2){
+                        enemy.setVelocity(800, 0);
+                        if (enemy.body.blocked.right) {
+                            enemy.direction = 'left';
+                            //console.log("blockedright");
+                        }
+                        if (enemy.body.blocked.left) {
+                            enemy.direction = 'right';
+                        }
+                        if (enemy.direction === 'right') {
+                            enemy.setVelocity(800, 0);
+                        }
+                        if (enemy.direction === 'left') {
+                            enemy.setVelocity(800, 0);
+                        }
+                    }
+                                             
+                }
+                
             }
             if (player.y + 15.5 >= enemy.y && player.isAlive == true && player.isGhost === false) {
                 player.enemyTouch = true;
