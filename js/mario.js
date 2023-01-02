@@ -94,38 +94,24 @@ export default class Mario {
         }
     }
 
-    /* collideWithKoopa(main, koopa){
-        main.physics.add.overlap(this.player, koopa , function(player, koopa){
-            if (player.y + 15.5 < koopa.y && player.isAlive == true){
-                koopa.anims.play('koopadeath', true);
-                koopa.setVelocity(0,0);
-                koopa.koopaAlive = false;
-                setTimeout(() => {
-                    console.log('koopa dead');
-                    koopa.destroy();
-                }, 250);
-            }
-        } );
-    } */
-
-    collideWithEnemy(main, enemy,death) {
+    collideWithEnemy(main, enemy, death) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
             if (player.y + 15.5 < enemy.y && player.isAlive == true) {
                 player.body.setVelocityY(-200);
                 enemy.anims.play(death, true);
                 enemy.setVelocity(0, 0);
-                enemy.enemyAlive = false;              
-                if(death == 'gumbadeath'){
+                enemy.enemyAlive = false;
+                if (death == 'gumbadeath') {
                     console.log('gumba');
                     setTimeout(() => {
                         enemy.destroy();
                     }, 250);
                 }
-                if(death == 'koopadeath'){
+                if (death == 'koopadeath') {
                     console.log('koopa');
                     enemy.KoopaShell = enemy.KoopaShell + 1;
                     //console.log(enemy.KoopaShell);
-                    if(enemy.KoopaShell >= 3){
+                    if (enemy.KoopaShell >= 3) {
                         enemy.setVelocity(800, 0);
                         if (enemy.body.blocked.right) {
                             enemy.direction = 'left';
@@ -141,9 +127,7 @@ export default class Mario {
                             enemy.setVelocity(800, 0);
                         }
                     }
-                                             
                 }
-                
             }
             if (player.y + 15.5 >= enemy.y && player.isAlive == true && player.isGhost === false) {
                 player.enemyTouch = true;
@@ -155,11 +139,11 @@ export default class Mario {
     playerDeath(player, main) {
         if (player.enemyTouch === true && player.isGhost == false) {
             if (player.lifescore > 0) {
-                player.lifescore = player.lifescore - 1;
+                player.lifescore -= 1;
                 player.setScale(0.7)
                 console.log(player.lifescore);
                 player.enemyTouch = false // 
-                player.level = 1;
+                player.level -= 1;
                 _isGhost(player) // Frame d'invinsibilité
                 // setTimeout(() => {
                 //     isGhost(player)
@@ -182,11 +166,14 @@ export default class Mario {
         }
     }
 
-    levelUp(main) {
-        if (this.player.level == 1) {
+    levelUp(main, bonus) {
+        if (this.player.level == 1 && bonus.name == "mushroom") {
             _levelUp(this.player, main)
             this.player.level = 2;
             this.player.lifescore = 1;
+        } else if (this.player.level >= 1 && bonus.name == "flower") {
+            this.player.level = 3;
+            this.player.lifescore = 2;
         }
     }
 

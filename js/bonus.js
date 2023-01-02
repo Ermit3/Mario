@@ -4,5 +4,6 @@ export default class Bonus {
         this.bonus = main.physics.add.sprite(x, y, name);
         main.physics.add.collider(groundLayer, this.bonus);
         this.bonus.setCollideWorldBounds(true);
+        this.bonus.name = name;
     }
 }

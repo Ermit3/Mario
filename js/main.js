@@ -51,8 +51,9 @@ function preload() {
     this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
     this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
     this.load.atlas('mystery_box', 'assets/mystery_tiles.png', 'assets/mystery_tiles.json');
-    // mushroom
+    // bonus
     this.load.image('mushroom', 'assets/mushroom.png');
+    this.load.image('flower', 'assets/flower.png');
     // coin
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
@@ -315,6 +316,7 @@ function bonus(main, tile) {
         var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
         mushroom.changeDirection();
         var bonus = mushroom.bonus;
+        console.log(bonus.name);
     } else if (player.level == 2) {
         var flower = new Bonus(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'flower');
         var bonus = flower.bonus;
@@ -325,9 +327,9 @@ function bonus(main, tile) {
     main.physics.add.overlap(player, bonus, (player, bonus) => {
         console.log("Y'a contact");
         if (bonus.name == "mushroom" || bonus.name == "flower") {
-            mario.levelUp(main);
+            mario.levelUp(main, bonus);
         } else {
-
+            // coin
         }
         bonus.destroy();
     });
