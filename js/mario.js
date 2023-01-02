@@ -87,7 +87,7 @@ export default class Mario {
                     enemy.KoopaShell = enemy.KoopaShell + 1;
                     console.log(enemy.KoopaShell);
                     if(enemy.KoopaShell == 3){
-                        enemy.setVelocity(100, 0);
+                        enemy.setVelocity(300, 0);
                         if (enemy.body.blocked.right) {
                             enemy.direction = 'left';
                         }
