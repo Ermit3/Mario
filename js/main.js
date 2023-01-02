@@ -305,8 +305,9 @@ function bonus(main, tile) {
     // move(mushroom2);
 
     var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
+    mushroom.changeDirection();
 
-    main.physics.add.overlap(player, mushroom, (player, mushroom) => {
+    main.physics.add.overlap(player, mushroom.bonus, (player, mushroom) => {
         console.log("Y'a contact");
         mario.levelUp(main);
         mushroom.destroy();
@@ -331,8 +332,6 @@ function update(time, delta) {
     } else if (this.gameOver) {
         return
     }
-
-    mushroom.changeDirection();
 
     this.gumba1.changeDirection();
     this.gumba2.changeDirection();
