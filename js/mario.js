@@ -85,20 +85,21 @@ export default class Mario {
                 if(death == 'koopadeath'){
                     console.log('koopa');
                     enemy.KoopaShell = enemy.KoopaShell + 1;
-                    console.log(enemy.KoopaShell);
-                    if(enemy.KoopaShell == 3){
-                        enemy.setVelocity(300, 0);
+                    //console.log(enemy.KoopaShell);
+                    if(enemy.KoopaShell >= 2){
+                        enemy.setVelocity(800, 0);
                         if (enemy.body.blocked.right) {
                             enemy.direction = 'left';
+                            //console.log("blockedright");
                         }
                         if (enemy.body.blocked.left) {
                             enemy.direction = 'right';
                         }
                         if (enemy.direction === 'right') {
-                            enemy.setVelocity(100, 0);
+                            enemy.setVelocity(800, 0);
                         }
                         if (enemy.direction === 'left') {
-                            enemy.setVelocity(-100, 0);
+                            enemy.setVelocity(800, 0);
                         }
                     }
                                              
