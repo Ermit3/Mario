@@ -1,53 +1,67 @@
-function isGhost(player) {
-    player.alpha = player.alpha == 1 ? 0.2 : 1;
-    player.isGhost = player.isGhost == false ? true : false;
-
-    // for (var i = 0; i <= 10; i++) {
-    //     i % 2 == 0 ? setTimeout(() => { player.alpha = 1; i == 10 ? player.isGhost = false : console.log("k"); }, i * 100) : setTimeout(() => { player.alpha = 0.1 }, i * 100);
-    // }
+function transformation(type, player, main) {
+    let count = 0;
+    for (var i = 0; i <= 10; i++) {
+        if (i % 2 == 0) {
+            var transformation1 = setTimeout(() => {
+                if (type == "levelUP") {
+                    player.setScale(1);
+                } else if (type == "isGhost") {
+                    player.alpha = 1;
+                }
+                count++;
+                if (count == 9) {
+                    if (type == "levelUP") {
+                        main.physics.resume();
+                    } else if (type == "isGhost") {
+                        player.isGhost = false;
+                    }
+                    clearTimeout(transformation1)
+                }
+            }, i * 100);
+        } else {
+            var transformation2 = setTimeout(() => {
+                if (type == "levelUP") {
+                    player.setScale(0.7);
+                } else if (type == "isGhost") {
+                    player.alpha = 0.1;
+                }
+                count++;
+                if (count == 8) {
+                    clearTimeout(transformation2)
+                }
+            }, i * 100);
+        }
+    }
 }
 
-// function isGhost(player) {
-//     // player.alpha = player.alpha == 1 ? 0.2 : 1;
-//     player.isGhost = true;
+// Fonction de frame d'invisibilité
+function _isGhost(player) {
+    player.isGhost = true;
+    transformation("isGhost", player);
+}
 
-//     for (var i = 0; i <= 10; i++) {
-//         if (i % 2 == 0) {
-//             var ghost1 = setTimeout(() => {
-//                 player.alpha = 1;
-//             }, i * 100);
-//         } else {
-//             var ghost2 = setTimeout(() => {
-//                 player.alpha = 0.1
-//             }, i * 100);
-//         }
-//         if (i == 10) {
-//             clearTimeout(ghost1)
-//             clearTimeout(ghost2)
-//             player.isGhost = false
-//             console.log(i)
-//             console.log('clear');
-//         }
-//     }
-// }
+// Fonction mettant la physique du jeu en pause et fait grandir le player  
+function _levelUp(player, main) {
+    main.physics.pause();
+    transformation("levelUP", player, main);
+}
 
 export default class Mario {
     player;
 
     constructor(main, groundLayer, x, y) {
         this.player = main.physics.add.sprite(x, y, 'player');
-        this.player.isAlive = true;
         this.player.setCollideWorldBounds(true);
         main.physics.add.collider(groundLayer, this.player);
-        this.player.isAlive = true;
-        this.player.lifescore = 0;
-        this.player.isGhost = false;
         this.player.depth = 1; // z-index du texte
         this.player.level = 1; //
+        this.player.lifescore = 0;
+        this.player.isAlive = true;
+        this.player.isGhost = false;
         (this.player.level == 1) ? this.player.setScale(0.7) : this.player.setScale(0.9)
     }
 
-    playerMove(player, cursors, main) {
+    playerMove(player, cursors) {
         if (player.isAlive) {
             if (cursors.left.isDown && cursors.space.isUp) {
                 player.body.setVelocityX(-200);
@@ -77,13 +91,6 @@ export default class Mario {
             if (cursors.up.isDown && player.body.onFloor()) {
                 player.body.setVelocityY(-460);
             }
-            // Debug cursor
-            if (cursors.down.isDown && player.body.onFloor()) {
-                console.log("Lifecount " + player.lifescore);
-                console.log("Alive " + player.isAlive);
-                console.log("Ghost " + player.isGhost);
-                console.log(player.level);
-            }
         }
     }
 
@@ -107,16 +114,17 @@ export default class Mario {
     }
 
     playerDeath(player, main) {
-        if (player.enemyTouch === true) {
-            if (player.lifescore > 0 && player.isGhost == false) {
+        if (player.enemyTouch === true && player.isGhost == false) {
+            if (player.lifescore > 0) {
                 player.lifescore = player.lifescore - 1;
                 player.setScale(0.7)
                 console.log(player.lifescore);
                 player.enemyTouch = false // 
-                isGhost(player) // Frame d'invinsibilité
-                setTimeout(() => {
-                    isGhost(player)
-                }, 2000);
+                player.level = 1;
+                _isGhost(player) // Frame d'invinsibilité
+                // setTimeout(() => {
+                //     isGhost(player)
+                // }, 2000);
             } else {
                 player.isAlive = false;
                 player.body.setVelocityX(0);
@@ -132,6 +140,14 @@ export default class Mario {
                 //     main.scene.start('main');
                 // }, 1500);
             }
+        }
+    }
+
+    levelUp(main) {
+        if (this.player.level == 1) {
+            _levelUp(this.player, main)
+            this.player.level = 2;
+            this.player.lifescore = 1;
         }
     }
 

@@ -32,9 +32,9 @@ export default class Gumba {
         }
     }
 
-    addCollider() {
-        this.physics.add.collider(groundLayer, gumba);
-    }
+    // addCollider() {
+    //     this.physics.add.collider(groundLayer, gumba);
+    // }
 
     // collideWithPlayer(main, player, death) {
 

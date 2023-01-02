@@ -1,5 +1,6 @@
 import Gumba from './gumba';
 import Mario from './mario';
+import Mushroom from './mushroom';
 
 var config = {
     type: Phaser.AUTO,
@@ -47,6 +48,8 @@ function preload() {
     this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
     this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
     this.load.atlas('mystery_box', 'assets/mystery_tiles.png', 'assets/mystery_tiles.json');
+    // mushroom
+    this.load.image('mushroom', 'assets/mushroom.png');
     // coin
     this.load.image('coin', 'assets/coinGold.png');
     // player animations
@@ -275,16 +278,38 @@ function breackBrick(sprite, tile) {
 
 }
 
+function move(obj) {
+    if (obj != undefined) {
+        obj.body.setVelocityX(75);
+        if (obj.body.blocked.right) {
+            obj.direction = 'left';
+            console.log("block");
+        }
+        if (obj.body.blocked.left) {
+            obj.direction = 'right';
+            console.log("block");
+        }
+        if (obj.direction === 'right') {
+            obj.setVelocity(100, 0);
+        }
+        if (obj.direction === 'left') {
+            obj.setVelocity(-100, 0);
+        }
+    }
+}
+
 function bonus(main, tile) {
-    console.log('bonus');
-    var bonusss = main.physics.add.sprite(tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'coin');
-    main.physics.add.collider(groundLayer, bonusss);
-    main.physics.add.overlap(player, bonusss, (player, bonusss) => {
-        console.log("Y'a contact")
-        player.level = 2;
-        player.lifescore = 1;
-        player.setScale(1)
-        bonusss.destroy()
+    // var mushroom2 = main.physics.add.sprite(tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
+    // main.physics.add.collider(groundLayer, mushroom2);
+    // mushroom2.setCollideWorldBounds(true);
+    // move(mushroom2);
+
+    var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
+
+    main.physics.add.overlap(player, mushroom, (player, mushroom) => {
+        console.log("Y'a contact");
+        mario.levelUp(main);
+        mushroom.destroy();
     });
 
 
@@ -306,6 +331,8 @@ function update(time, delta) {
     } else if (this.gameOver) {
         return
     }
+
+    mushroom.changeDirection();
 
     this.gumba1.changeDirection();
     this.gumba2.changeDirection();
