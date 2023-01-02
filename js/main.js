@@ -58,6 +58,7 @@ function preload() {
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
     this.load.atlas('death', 'assets/player3.png', 'assets/player3.json');
+    this.load.atlas('koopa','assets/KoopaSprite2.png','assets/KoopaSprite2.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');

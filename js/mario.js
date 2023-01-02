@@ -94,7 +94,7 @@ export default class Mario {
         }
     }
 
-    collideWithKoopa(main, koopa){
+    /* collideWithKoopa(main, koopa){
         main.physics.add.overlap(this.player, koopa , function(player, koopa){
             if (player.y + 15.5 < koopa.y && player.isAlive == true){
                 koopa.anims.play('koopadeath', true);
@@ -106,7 +106,7 @@ export default class Mario {
                 }, 250);
             }
         } );
-    }
+    } */
 
     collideWithEnemy(main, enemy,death) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
@@ -125,7 +125,7 @@ export default class Mario {
                     console.log('koopa');
                     enemy.KoopaShell = enemy.KoopaShell + 1;
                     //console.log(enemy.KoopaShell);
-                    if(enemy.KoopaShell >= 2){
+                    if(enemy.KoopaShell >= 3){
                         enemy.setVelocity(800, 0);
                         if (enemy.body.blocked.right) {
                             enemy.direction = 'left';
