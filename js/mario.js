@@ -89,7 +89,7 @@ export default class Mario {
                 player.anims.play('jump', true); // Active when player not on the ground
             }
             if (cursors.up.isDown && player.body.onFloor()) {
-                player.body.setVelocityY(-460);
+                player.body.setVelocityY(-500);
             }
         }
     }

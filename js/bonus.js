@@ -5,5 +5,6 @@ export default class Bonus {
         main.physics.add.collider(groundLayer, this.bonus);
         this.bonus.setCollideWorldBounds(true);
         this.bonus.name = name;
+        this.bonus.destroyed = false;
     }
 }

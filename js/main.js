@@ -12,7 +12,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 500 },
+            gravity: { y: 600 }, // from 500 to 600
             debug: false
         }
     },
@@ -314,8 +314,12 @@ function bonus(main, tile) {
     // move(mushroom2);
     if (player.level == 1) {
         var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
-        mushroom.changeDirection();
         var bonus = mushroom.bonus;
+        if (!main.mushrooms) {
+            main.mushrooms = [];
+            console.log("create");
+        }
+        main.mushrooms.push(mushroom);
         console.log(bonus.name);
     } else if (player.level == 2) {
         var flower = new Bonus(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'flower');
@@ -331,6 +335,12 @@ function bonus(main, tile) {
         } else {
             // coin
         }
+        // if (bonus.name == "mushroom" || bonus.name == "flower") {
+        //     mushroom.destroy()
+        // } else if (bonus.name == "flower") {
+        //     flower.destroy()
+        // }
+        bonus.destroyed = true;
         bonus.destroy();
     });
 }
@@ -350,6 +360,14 @@ function update(time, delta) {
         mario.restartScene(this);
     } else if (this.gameOver) {
         return
+    }
+
+    if (this.mushrooms) {
+        this.mushrooms.forEach(mushroom => {
+            if (mushroom.bonus.name == "mushroom" && !mushroom.bonus.destroyed) {
+                mushroom.changeDirection();
+            }
+        });
     }
 
     this.koopa1.changeDirectionKoopa();
