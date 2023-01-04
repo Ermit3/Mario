@@ -112,8 +112,8 @@ export default class Mario {
                     enemy.KoopaShell = enemy.KoopaShell + 1;
                     //console.log(enemy.KoopaShell);
                     if (enemy.KoopaShell >= 3) {
-                        enemy.setVelocity(800, 0);
-                        if (enemy.body.blocked.right) {
+                        enemy.setVelocity(-800, 0);
+                        /* if (enemy.body.blocked.right) {
                             enemy.direction = 'left';
                             //console.log("blockedright");
                         }
@@ -125,7 +125,7 @@ export default class Mario {
                         }
                         if (enemy.direction === 'left') {
                             enemy.setVelocity(800, 0);
-                        }
+                        } */
                     }
                 }
             }
@@ -136,8 +136,8 @@ export default class Mario {
         });
     }
 
-    playerDeath(player, main) {
-        if (player.enemyTouch === true && player.isGhost == false) {
+    playerDeath(player, main,enemy) {
+        if (player.enemyTouch === true && player.isGhost == false && enemy.enemyAlive == true) {
             if (player.lifescore > 0) {
                 player.lifescore -= 1;
                 player.setScale(0.7)

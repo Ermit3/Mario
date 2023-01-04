@@ -381,7 +381,7 @@ function update(time, delta) {
     mario.playerMove(player, cursors, this);
 
     // MarioDeath(player);
-    mario.playerDeath(player, this);
+    mario.playerDeath(player, this,this.koopa1.enemy);
 
     // mario.playerDead(player);
 }
