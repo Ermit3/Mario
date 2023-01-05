@@ -44,6 +44,7 @@ function preload() {
     // JSON map
     this.load.tilemapTiledJSON('map', 'assets/map2.json', null);
     // tiles
+    this.load.image('bombplat','assets/bombplat.png',{ frameWidth: 64 });
     this.load.image('tiles', 'assets/tiles3.png', { frameWidth: 64 });
     this.load.image('bonusTile', 'assets/bonusTile.png', { frameWidth: 64 });
     this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 64 });
@@ -60,6 +61,7 @@ function preload() {
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
     this.load.atlas('koopa', 'assets/KoopaSprite2.png', 'assets/KoopaSprite2.json');
+    this.load.atlas('bomb','assets/BombSprite.png','assets/spritebomb.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -100,6 +102,10 @@ function create() {
 
     //ENEMY
 
+    //BOMB
+    this.bombplat1 = new Enemy(this, groundLayer, 400,550,'bombplat');
+    this.bomb1 = new Enemy(this, groundLayer, 500 , 600 , 'bomb');
+
     //KOOPA
     this.koopa1 = new Enemy(this, groundLayer, 400, 550, 'koopa');
 
@@ -117,6 +123,8 @@ function create() {
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
+    mario.PlayerBomb(this, this.bombplat1.enemy);
+
     //gumba3.KoopaShellCollideKoopa(this,this.koopa1.enemy);
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
@@ -131,6 +139,17 @@ function create() {
     groundLayer.setTileIndexCallback(4, breackBrick, this);
     // END TILES //
 
+
+    //Animation Bomb
+    this.anims.create({
+        key:'bombleft',
+        frames:[{key: 'bomb', frame:'bombleft'}],
+    })
+
+    this.anims.create({
+        key:'bombright',
+        frames:[{key: 'bomb', frame:'bombright'}],
+    })
 
     //Animation des KOOPA
     this.anims.create({

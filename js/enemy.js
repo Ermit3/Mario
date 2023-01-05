@@ -58,6 +58,8 @@ export default class Enemy{
         })
     } */
 
+    
+
     changeDirectionKoopa() {
         
         if (this.enemy.enemyAlive == true) {

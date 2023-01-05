@@ -136,6 +136,12 @@ export default class Mario {
         });
     }
 
+    PlayerBomb(main, enemy){
+        main.physics.add.collider(this.player, enemy, function (player,enemy) {
+            console.log('bomba');
+        })
+    }
+
     playerDeath(player, main,enemy) {
         if (player.enemyTouch === true && player.isGhost == false && enemy.enemyAlive == true) {
             if (player.lifescore > 0) {
