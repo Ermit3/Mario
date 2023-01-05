@@ -50,6 +50,14 @@ export default class Enemy{
         }
     }
 
+    /* KoopaShellCollideKoopa(enemy){
+        enemy.physics.add.overlap(this.enemy,function(enemy, enemy){
+            if(enemy.x == enemy.x && KoopaDead == true ){
+                console.log('ici');
+            }
+        })
+    } */
+
     changeDirectionKoopa() {
         
         if (this.enemy.enemyAlive == true) {

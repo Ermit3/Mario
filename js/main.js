@@ -117,6 +117,8 @@ function create() {
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
+    //gumba3.KoopaShellCollideKoopa(this,this.koopa1.enemy);
+
     //mario.collideWithKoopa(this, this.koopa1.koopa);
 
     // PLAYER PHYSICS
