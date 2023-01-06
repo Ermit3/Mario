@@ -8,11 +8,11 @@ import Bonus from "./bonus";
 var config = {
     type: Phaser.AUTO,
     width: 800,
-    height: 600,
+    height: 750,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 600 }, // from 500 to 600
+            gravity: { y: 1000 }, // from 500 to 600
             debug: false
         }
     },
@@ -31,7 +31,7 @@ var layer;
 var player;
 var mario;
 var cursors;
-var groundLayer, coinLayer;
+var groundLayer, coinsLayer, backgroundLayer, pipesLayer, bricksLayer, decorationLayer;
 var text;
 var score = 0;
 //var gumba;
@@ -42,14 +42,14 @@ var death = false;
 
 function preload() {
     // JSON map
-    this.load.tilemapTiledJSON('map', 'assets/map2.json', null);
+    this.load.tilemapTiledJSON('map', 'assets/untitled3.json', null);
     // tiles
-    this.load.image('tiles', 'assets/tiles3.png', { frameWidth: 64 });
-    this.load.image('bonusTile', 'assets/bonusTile.png', { frameWidth: 64 });
-    this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 64 });
-    this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 64 });
-    this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
-    this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
+    this.load.image('tileset_x4', 'assets/tileset_x4.png', { frameWidth: 16 });
+    this.load.image('bonusTile', 'assets/bonusTile.png', { frameWidth: 16 });
+    this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 16 });
+    this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 16 });
+    this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 16 });
+    this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 16 });
     this.load.atlas('mystery_box', 'assets/mystery_tiles.png', 'assets/mystery_tiles.json');
     // bonus
     this.load.image('mushroom', 'assets/mushroom.png');
@@ -64,17 +64,20 @@ function preload() {
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
     //this.load.image('gumbadead','assets/deathgumba.png');
-
-
-
 }
 
 function create() {
 
     // create the ground layer
-    map = this.make.tilemap({ key: 'map', tileWidth: 64, tileHeight: 64 });
-    var groundTiles = map.addTilesetImage('tiles');
-    groundLayer = map.createDynamicLayer('world', groundTiles, 0, 0);
+    let map = this.make.tilemap({ key: 'map' });
+    const groundTiles = map.addTilesetImage('tileset_x4');
+    const backgroundLayer = map.createDynamicLayer('backgroundLayer', groundTiles, 0, 0);
+    const decorationLayer = map.createDynamicLayer('decorationLayer', groundTiles, 0, 0);
+    const groundLayer = map.createDynamicLayer('groundLayer', groundTiles, 0, 0);
+
+    const bricksLayer = map.createFromObjects('bricksLayer', { gid: 5 })
+    console.log(bricksLayer);
+
 
     // collision avec le groundLayer
     groundLayer.setCollisionByExclusion([-1]);
@@ -84,8 +87,8 @@ function create() {
     this.gameOver = false;
 
     // add coins
-    var coinTiles = map.addTilesetImage('coin');
-    coinLayer = map.createDynamicLayer('Coins', coinTiles, 0, 0);
+    // var coinTiles = map.addTilesetImage('coin');
+    // coinLayer = map.createDynamicLayer('Coins', coinTiles, 0, 0);
 
     // GESTION BORDURE
     // set the boundaries of our game world
@@ -95,16 +98,16 @@ function create() {
 
     // GESTION APPARITION
     /// MARIO
-    mario = new Mario(this, groundLayer, 200, 200);
+    mario = new Mario(this, groundLayer, 50, 600);
     player = mario.player;
 
     //ENEMY
 
     //KOOPA
-    this.koopa1 = new Enemy(this, groundLayer, 400, 550, 'koopa');
+    this.koopa1 = new Enemy(this, groundLayer, 400, 600, 'koopa');
 
     /// GUMBA
-    this.gumba3 = new Enemy(this, groundLayer, 50, 550, 'gumba');
+    this.gumba3 = new Enemy(this, groundLayer, 200, 600, 'gumba');
     /* this.gumba1 = new Gumba(this, groundLayer, 100, 550,'gumba');
     this.gumba2 = new Gumba(this, groundLayer, 300, 550,'gumba'); */
     // FIN APPARITION //
@@ -144,10 +147,10 @@ function create() {
         frames: [{ key: 'koopa', frame: 'koopaDead' }],
     })
     // FIN Animation des KOOPA
-    coinLayer.setTileIndexCallback(7, collectCoin, this);
-    // // when the player overlaps with a tile with index 17, collectCoin 
-    // // will be called    
-    this.physics.add.overlap(player, coinLayer);
+    // coinLayer.setTileIndexCallback(7, collectCoin, this);
+    // // // when the player overlaps with a tile with index 17, collectCoin 
+    // // // will be called    
+    // this.physics.add.overlap(player, coinLayer);
 
     // GESTION DES SPRITES
     /// MARIO
@@ -197,9 +200,12 @@ function create() {
     // GESTION DE CAMERA
     // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // make the camera follow the player
-    this.cameras.main.startFollow(player);
-    // set background color, so the sky is not black    
+    console.log(map.widthInPixels);
+    // Zoom
+    this.cameras.main.setZoom(1);
+    // make the camera follow the player 
+    this.cameras.main.startFollow(player, false, 0, 0, 0, 0);
+    // set background color, so the sky is not black
     this.cameras.main.setBackgroundColor('#ccccff');
     // à coriger
     this.cameras.main.fadeIn(1000);

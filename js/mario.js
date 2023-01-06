@@ -89,7 +89,7 @@ export default class Mario {
                 player.anims.play('jump', true); // Active when player not on the ground
             }
             if (cursors.up.isDown && player.body.onFloor()) {
-                player.body.setVelocityY(-500);
+                player.body.setVelocityY(-630);
             }
         }
     }
@@ -140,7 +140,9 @@ export default class Mario {
         if (player.enemyTouch === true && player.isGhost == false) {
             if (player.lifescore > 0) {
                 player.lifescore -= 1;
-                player.setScale(0.7)
+                if (player.level == 1) {
+                    player.setScale(0.7)
+                }
                 console.log(player.lifescore);
                 player.enemyTouch = false // 
                 player.level -= 1;
