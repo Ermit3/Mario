@@ -97,6 +97,7 @@ export default class Mario {
     collideWithEnemy(main, enemy, death) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
             if (player.y + 15.5 < enemy.y && player.isAlive == true) {
+                console.log('mario y' + player.y);
                 player.body.setVelocityY(-200);
                 enemy.anims.play(death, true);
                 enemy.setVelocity(0, 0);
@@ -136,11 +137,18 @@ export default class Mario {
         });
     }
 
-    PlayerBomb(main, enemy){
-        main.physics.add.collider(this.player, enemy, function (player,enemy) {
-            console.log('bomba');
-        })
-    }
+    PlayerBomb(main, enemy,enemyy){
+        if(this.player.x <= enemy.x){
+            enemyy.anims.play(bombleft,true);
+        }
+        else{
+            enemyy.anims.play(bombright,true);
+        }
+        //console.log('mario '+ this.player.x);
+        //console.log('enemy' + enemy.x);
+                   
+    }        
+    
 
     playerDeath(player, main,enemy) {
         if (player.enemyTouch === true && player.isGhost == false && enemy.enemyAlive == true) {

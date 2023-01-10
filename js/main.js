@@ -104,7 +104,7 @@ function create() {
 
     //BOMB
     this.bombplat1 = new Enemy(this, groundLayer, 400,550,'bombplat');
-    this.bomb1 = new Enemy(this, groundLayer, 500 , 600 , 'bomb');
+    this.bomb1 = new Enemy(this, groundLayer, 355 , 400 , 'bomb');
 
     //KOOPA
     this.koopa1 = new Enemy(this, groundLayer, 400, 550, 'koopa');
@@ -123,7 +123,7 @@ function create() {
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
-    mario.PlayerBomb(this, this.bombplat1.enemy);
+    
 
     //gumba3.KoopaShellCollideKoopa(this,this.koopa1.enemy);
 
@@ -376,6 +376,8 @@ function collectCoin(sprite, tile) {
 }
 
 function update(time, delta) {
+
+    mario.PlayerBomb(this, this.bombplat1.enemy, this.bomb1.enemyy);
 
     if (this.gameOver && cursors.space.isDown) {
         mario.restartScene(this);
