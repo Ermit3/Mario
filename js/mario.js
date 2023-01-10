@@ -140,15 +140,14 @@ export default class Mario {
     PlayerBomb(main, enemy){
         if(this.player.x <= 400){
             console.log('left');
+            enemy.setVelocity(-100,0);
             enemy.anims.play('bombleft',true);
         }
         else{
             console.log('right');
             enemy.anims.play('bombright',true);
-        }
-        //console.log('mario '+ this.player.x);
-        //console.log('enemy' + enemy.x);
-                   
+            enemy.setVelocity(100,0);
+        }          
     }        
     
 

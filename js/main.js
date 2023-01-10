@@ -143,12 +143,17 @@ function create() {
 
     //Animation Bomb
     this.anims.create({
-        key:'bombaleft',
+        key:'bombzero',
+        frames:[{key: 'bomb', frame:'bombzero'}],
+    })
+
+    this.anims.create({
+        key:'bombleft',
         frames:[{key: 'bomb', frame:'bombleft'}],
     })
 
     this.anims.create({
-        key:'bombaright',
+        key:'bombright',
         frames:[{key: 'bomb', frame:'bombright'}],
     })
 
