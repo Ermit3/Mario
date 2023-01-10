@@ -61,7 +61,7 @@ function preload() {
     this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
     this.load.atlas('koopa', 'assets/KoopaSprite2.png', 'assets/KoopaSprite2.json');
-    this.load.atlas('bomb','assets/BombSprite.png','assets/spritebomb.json');
+    this.load.atlas('bomb','assets/bombasprite.png','assets/bombasprite.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
@@ -103,7 +103,8 @@ function create() {
     //ENEMY
 
     //BOMB
-    this.bombplat1 = new Enemy(this, groundLayer, 400,550,'bombplat');
+    //this.bombplat1 = new Enemy(this, groundLayer, 400,550,'bombplat');
+    let bombplat1 = this.add.sprite(400, 550, 'bombplat');
     this.bomb1 = new Enemy(this, groundLayer, 355 , 400 , 'bomb');
 
     //KOOPA
@@ -124,7 +125,7 @@ function create() {
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
     
-
+    
     //gumba3.KoopaShellCollideKoopa(this,this.koopa1.enemy);
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
@@ -142,12 +143,12 @@ function create() {
 
     //Animation Bomb
     this.anims.create({
-        key:'bombleft',
+        key:'bombaleft',
         frames:[{key: 'bomb', frame:'bombleft'}],
     })
 
     this.anims.create({
-        key:'bombright',
+        key:'bombaright',
         frames:[{key: 'bomb', frame:'bombright'}],
     })
 
@@ -377,7 +378,7 @@ function collectCoin(sprite, tile) {
 
 function update(time, delta) {
 
-    mario.PlayerBomb(this, this.bombplat1.enemy, this.bomb1.enemyy);
+    mario.PlayerBomb(this, this.bomb1.enemy);
 
     if (this.gameOver && cursors.space.isDown) {
         mario.restartScene(this);
