@@ -137,7 +137,7 @@ export default class Mario {
         });
     }
 
-    PlayerBomb(main, enemy){
+    /* PlayerBomb(main, enemy){
         if(this.player.x <= 400){
             console.log('left');
             enemy.setVelocity(-100,0);
@@ -148,7 +148,7 @@ export default class Mario {
             enemy.anims.play('bombright',true);
             enemy.setVelocity(100,0);
         }          
-    }        
+    }   */      
     
 
     playerDeath(player, main,enemy) {

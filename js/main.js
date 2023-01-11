@@ -2,6 +2,7 @@
 import Koopa from './koopa'; */
 import Mario from './mario';
 import Enemy from './enemy';
+import Bomb from './bomb';
 import Mushroom from './mushroom';
 import Bonus from "./bonus";
 
@@ -105,7 +106,7 @@ function create() {
     //BOMB
     //this.bombplat1 = new Enemy(this, groundLayer, 400,550,'bombplat');
     let bombplat1 = this.add.sprite(400, 550, 'bombplat');
-    this.bomb1 = new Enemy(this, groundLayer, 355 , 400 , 'bomb');
+    //this.bomb1 = new Enemy(this, groundLayer, 355 , 400 , 'bomb');
 
     //KOOPA
     this.koopa1 = new Enemy(this, groundLayer, 400, 550, 'koopa');
@@ -125,7 +126,7 @@ function create() {
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
     
-    
+    shootBomb();
     //gumba3.KoopaShellCollideKoopa(this,this.koopa1.enemy);
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
@@ -334,6 +335,17 @@ function breackBrick(sprite, tile) {
 
 }
 
+function shootBomb(){
+    if(player.x <= 400){
+        /* var bomb = new Bomb(main, groundLayer, tile.x, tile.y ,'bomb');
+        main.bomb=[];
+        main.bomb.push(bomb); */
+        this.bomb1 = new Bomb(this, groundLayer, 355, 400, 'bomb');
+        console.log('bombastick');
+    }
+}
+
+
 function bonus(main, tile) {
     // var mushroom2 = main.physics.add.sprite(tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
     // main.physics.add.collider(groundLayer, mushroom2);
@@ -383,7 +395,8 @@ function collectCoin(sprite, tile) {
 
 function update(time, delta) {
 
-    mario.PlayerBomb(this, this.bomb1.enemy);
+    //mario.PlayerBomb(this, this.bomb1.enemy);
+    
 
     if (this.gameOver && cursors.space.isDown) {
         mario.restartScene(this);
