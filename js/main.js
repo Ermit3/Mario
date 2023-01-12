@@ -56,8 +56,10 @@ function preload() {
     this.load.image('flower', 'assets/flower.png');
     // coin
     this.load.image('coin', 'assets/coinGold.png');
+    // fireball
+    this.load.atlas('fireball', 'assets/fireball_01.png', 'assets/fireball_01.json');
     // player animations
-    this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
+    this.load.atlas('player', 'assets/mario_complete.png', 'assets/mario_complete.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
     this.load.atlas('koopa', 'assets/KoopaSprite2.png', 'assets/KoopaSprite2.json');
 
@@ -75,9 +77,11 @@ function create() {
     const decorationLayer = map.createDynamicLayer('decorationLayer', groundTiles, 0, 0);
     const groundLayer = map.createDynamicLayer('groundLayer', groundTiles, 0, 0);
 
-    const bricksLayer = map.createFromObjects('bricksLayer', { gid: 5 })
-    console.log(bricksLayer);
+    // const bricksLayer = map.createFromObjects('bricksLayer', 'bricks')
+    // console.log(bricksLayer);
 
+    // const colude = map.setCollisionFromCollisionGroup(true, true, bricksLayer)
+    // console.log(colude);
 
     // collision avec le groundLayer
     groundLayer.setCollisionByExclusion([-1]);
@@ -100,6 +104,7 @@ function create() {
     /// MARIO
     mario = new Mario(this, groundLayer, 50, 600);
     player = mario.player;
+    window.player = player;
 
     //ENEMY
 
@@ -153,37 +158,53 @@ function create() {
     // this.physics.add.overlap(player, coinLayer);
 
     // GESTION DES SPRITES
-    /// MARIO
+
+    /// MARIO LEVEL 1
     // player walk animation
     this.anims.create({
         key: 'walk',
-        frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 3, end: 1, zeroPad: 2 }),
+        frames: this.anims.generateFrameNames('player', { prefix: 'mario_f_walk', start: 1, end: 3, zeroPad: 2 }), // p1_walk
         frameRate: 10,
         repeat: -1
     });
     // idle with only one frame, so repeat is not neaded
     this.anims.create({
         key: 'idle',
-        frames: [{ key: 'player', frame: 'p1_stand' }],
+        frames: [{ key: 'player', frame: 'mario_f_idle' }], // p1_stand
         frameRate: 10,
     });
     // 
     this.anims.create({
         key: 'jump',
-        frames: [{ key: 'player', frame: 'p1_jump' }],
+        frames: [{ key: 'player', frame: 'mario_f_jump' }], // p1_jump
+        frameRate: 10,
+    });
+    this.anims.create({
+        key: 'throw',
+        frames: [{ key: 'player', frame: 'mario_f_throw' }], // p1_jump
         frameRate: 10,
     });
     // 
     this.anims.create({
         key: 'death',
-        frames: [{ key: 'player', frame: 'p1_death' }],
+        frames: [{ key: 'player', frame: 'mario_s_death' }], // p1_death
         frameRate: 10,
     });
+
+    ///FIREBALL
+    this.anims.create({
+        key: 'fireball',
+        frames: this.anims.generateFrameNames('fireball', { prefix: 'fire_', start: 1, end: 4, zeroPad: 2 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
     ///GUMBA
     this.anims.create({
         key: 'gumbadeath',
         frames: [{ key: 'gumba', frame: 'sprite25' }],
     })
+
     ///TILES
     this.anims.create({
         key: 'tiles_on',
@@ -200,7 +221,6 @@ function create() {
     // GESTION DE CAMERA
     // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    console.log(map.widthInPixels);
     // Zoom
     this.cameras.main.setZoom(1);
     // make the camera follow the player 
@@ -220,7 +240,7 @@ function create() {
     // fix the text to the camera
     text.setScrollFactor(0);
 
-    lifecount = this.add.text(100, 570, "" + player.lifescore + "", {
+    lifecount = this.add.text(760, 20, "" + player.lifescore + "", {
         fontSize: '20px',
         fill: '#ffffff'
     });
@@ -384,7 +404,10 @@ function update(time, delta) {
 
     //this.koopa1.ShellMovement();
     // MarioMove(player, cursors);
-    mario.playerMove(player, cursors, this);
+    mario.playerMove(cursors);
+
+    // Flower Mario Throw Fire
+    mario.playerThrow(cursors);
 
     // MarioDeath(player);
     mario.playerDeath(player, this);
