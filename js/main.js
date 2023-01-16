@@ -126,7 +126,7 @@ function create() {
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
 
     
-    shootBomb();
+    
     //gumba3.KoopaShellCollideKoopa(this,this.koopa1.enemy);
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
@@ -340,7 +340,7 @@ function shootBomb(){
         /* var bomb = new Bomb(main, groundLayer, tile.x, tile.y ,'bomb');
         main.bomb=[];
         main.bomb.push(bomb); */
-        this.bomb1 = new Bomb(this, groundLayer, 355, 400, 'bomb');
+        this.bomb1 = new Enemy(this, groundLayer, 355, 400, 'bomb');
         console.log('bombastick');
     }
 }
@@ -396,7 +396,7 @@ function collectCoin(sprite, tile) {
 function update(time, delta) {
 
     //mario.PlayerBomb(this, this.bomb1.enemy);
-    
+    shootBomb();
 
     if (this.gameOver && cursors.space.isDown) {
         mario.restartScene(this);
