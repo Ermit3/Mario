@@ -8,11 +8,11 @@ import Bonus from "./bonus";
 var config = {
     type: Phaser.AUTO,
     width: 800,
-    height: 600,
+    height: 750,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 600 }, // from 500 to 600
+            gravity: { y: 1000 }, // from 500 to 600
             debug: false
         }
     },
@@ -26,12 +26,13 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+var bricks = [];
 var map;
 var layer;
 var player;
 var mario;
 var cursors;
-var groundLayer, coinLayer;
+var groundLayer, coinsLayer, backgroundLayer, pipesLayer, bricksLayer, decorationLayer;
 var text;
 var score = 0;
 //var gumba;
@@ -42,39 +43,50 @@ var death = false;
 
 function preload() {
     // JSON map
-    this.load.tilemapTiledJSON('map', 'assets/map2.json', null);
+    this.load.tilemapTiledJSON('map', 'assets/untitled4.json', null);
     // tiles
-    this.load.image('tiles', 'assets/tiles3.png', { frameWidth: 64 });
-    this.load.image('bonusTile', 'assets/bonusTile.png', { frameWidth: 64 });
-    this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 64 });
-    this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 64 });
-    this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 64 });
-    this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 64 });
+    this.load.image('tileset_x4', 'assets/tileset_x4.png', { frameWidth: 16 });
+    this.load.image('bonusTile', 'assets/m_box.png', { frameWidth: 16 });
+    this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 16 });
+    this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 16 });
+    this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 16 });
+    this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 16 });
     this.load.atlas('mystery_box', 'assets/mystery_tiles.png', 'assets/mystery_tiles.json');
     // bonus
     this.load.image('mushroom', 'assets/mushroom.png');
     this.load.image('flower', 'assets/flower.png');
     // coin
     this.load.image('coin', 'assets/coinGold.png');
+    // fireball
+    this.load.atlas('fireball', 'assets/fireball_01.png', 'assets/fireball_01.json');
     // player animations
-    this.load.atlas('player', 'assets/opti_player.png', 'assets/opti_player.json');
+    this.load.atlas('player', 'assets/mario_complete.png', 'assets/mario_complete.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
     this.load.atlas('koopa', 'assets/KoopaSprite2.png', 'assets/KoopaSprite2.json');
 
     //this.load.image('gumba','assets/gumba.png');
     this.load.image('life', 'assets/life.png');
     //this.load.image('gumbadead','assets/deathgumba.png');
-
-
-
 }
 
 function create() {
 
     // create the ground layer
-    map = this.make.tilemap({ key: 'map', tileWidth: 64, tileHeight: 64 });
-    var groundTiles = map.addTilesetImage('tiles');
-    groundLayer = map.createDynamicLayer('world', groundTiles, 0, 0);
+    let map = this.make.tilemap({ key: 'map' });
+    const groundTiles = map.addTilesetImage('tileset_x4');
+    const backgroundLayer = map.createDynamicLayer('backgroundLayer', groundTiles, 0, 0);
+    const decorationLayer = map.createDynamicLayer('decorationLayer', groundTiles, 0, 0);
+    const groundLayer = map.createStaticLayer('groundLayer', groundTiles, 0, 0);
+
+    const poleLayer = map.createFromObjects('poleLayer', 'pole', { key: 'bonusTileOff' })
+    const bricksLayer = map.createFromObjects('bricksLayer', 'brick', { key: 'brickTile' })
+    const boxLayer = map.createFromObjects('bricksLayer', 'box', { key: 'bonusTile' })
+    this.bricksLayer = bricksLayer;
+    this.boxLayer = boxLayer;
+
+    console.log(boxLayer);
+    // const colude = map.setCollisionFromCollisionGroup(true, true, bricksLayer)
+    // console.log(colude);
 
     // collision avec le groundLayer
     groundLayer.setCollisionByExclusion([-1]);
@@ -82,10 +94,11 @@ function create() {
     // GameOver
     this.physics.resume(); // Après gameover si le monde est en pause, il reprendra
     this.gameOver = false;
+    this.winGame = false;
 
     // add coins
-    var coinTiles = map.addTilesetImage('coin');
-    coinLayer = map.createDynamicLayer('Coins', coinTiles, 0, 0);
+    // var coinTiles = map.addTilesetImage('coin');
+    // coinLayer = map.createDynamicLayer('Coins', coinTiles, 0, 0);
 
     // GESTION BORDURE
     // set the boundaries of our game world
@@ -95,16 +108,68 @@ function create() {
 
     // GESTION APPARITION
     /// MARIO
-    mario = new Mario(this, groundLayer, 200, 200);
+    mario = new Mario(this, groundLayer, 50, 600);
     player = mario.player;
+    window.player = player;
+
+    // Pole
+    poleLayer.forEach(pole => {
+        this.physics.world.enable(pole);
+        pole.body.allowGravity = false;
+        pole.body.immovable = true;
+        this.physics.add.collider(player, pole, (_player, _pole) => {
+            this.winGame = true;
+            this.winGameText.visible = true;
+            this.restartText.visible = true;
+            this.physics.pause();
+        });
+    })
+
+
+    // Bricks
+    bricksLayer.forEach(brick => {
+        this.physics.world.enable(brick);
+        brick.body.allowGravity = false;
+        brick.body.immovable = true;
+        brick.body.setSize(brick.width, brick.height, true);
+        this.physics.add.collider(player, brick, (_player, _brick) => {
+            if (_player.body.touching.up && _brick.body.touching.down && _brick.name == "brick") {
+                console.log(_brick.name);
+                if (_player.level >= 2) {
+                    _brick.destroy()
+                } else {
+                    // animation
+                }
+            }
+        });
+    })
+
+    boxLayer.forEach(brick => {
+        this.physics.world.enable(brick);
+        brick.body.allowGravity = false;
+        brick.body.immovable = true;
+        brick.body.actived = true;
+        brick.body.setSize(brick.width, brick.height, true);
+        this.physics.add.collider(player, brick, (_player, _box) => {
+            if (_player.body.touching.up && _box.body.touching.down && brick.body.actived) {
+                if (_player.level < 3) {
+                    bonus(this, _box, groundLayer);
+                    brick.body.actived = false;
+                } else {
+
+                }
+            }
+        });
+    })
 
     //ENEMY
 
     //KOOPA
-    this.koopa1 = new Enemy(this, groundLayer, 400, 550, 'koopa');
+    this.koopa1 = new Enemy(this, groundLayer, 400, 600, 'koopa');
+    this.koopa = new Enemy(this, groundLayer, 500, 600, 'koopa');
 
     /// GUMBA
-    this.gumba3 = new Enemy(this, groundLayer, 50, 550, 'gumba');
+    this.gumba3 = new Enemy(this, groundLayer, 200, 600, 'gumba');
     /* this.gumba1 = new Gumba(this, groundLayer, 100, 550,'gumba');
     this.gumba2 = new Gumba(this, groundLayer, 300, 550,'gumba'); */
     // FIN APPARITION //
@@ -144,43 +209,98 @@ function create() {
         frames: [{ key: 'koopa', frame: 'koopaDead' }],
     })
     // FIN Animation des KOOPA
-    coinLayer.setTileIndexCallback(7, collectCoin, this);
-    // // when the player overlaps with a tile with index 17, collectCoin 
-    // // will be called    
-    this.physics.add.overlap(player, coinLayer);
+    // coinLayer.setTileIndexCallback(7, collectCoin, this);
+    // // // when the player overlaps with a tile with index 17, collectCoin 
+    // // // will be called    
+    // this.physics.add.overlap(player, coinLayer);
 
     // GESTION DES SPRITES
-    /// MARIO
+
+    /// MARIO LEVEL 1
     // player walk animation
     this.anims.create({
+        key: 'death',
+        frames: [{ key: 'player', frame: 'mario_s_death' }], // p1_death
+        frameRate: 10,
+    });
+    // 1
+    this.anims.create({
         key: 'walk',
-        frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 3, end: 1, zeroPad: 2 }),
+        frames: this.anims.generateFrameNames('player', { prefix: 'mario_s_walk', start: 1, end: 3, zeroPad: 2 }), // p1_walk
         frameRate: 10,
         repeat: -1
     });
     // idle with only one frame, so repeat is not neaded
     this.anims.create({
         key: 'idle',
-        frames: [{ key: 'player', frame: 'p1_stand' }],
+        frames: [{ key: 'player', frame: 'mario_s_idle' }], // p1_stand
         frameRate: 10,
     });
     // 
     this.anims.create({
         key: 'jump',
-        frames: [{ key: 'player', frame: 'p1_jump' }],
+        frames: [{ key: 'player', frame: 'mario_s_jump' }], // p1_jump
+        frameRate: 10,
+    });
+    // 2
+    this.anims.create({
+        key: 'walk2',
+        frames: this.anims.generateFrameNames('player', { prefix: 'mario_l_walk', start: 1, end: 3, zeroPad: 2 }), // p1_walk
+        frameRate: 10,
+        repeat: -1
+    });
+    // idle with only one frame, so repeat is not neaded
+    this.anims.create({
+        key: 'idle2',
+        frames: [{ key: 'player', frame: 'mario_l_idle' }], // p1_stand
         frameRate: 10,
     });
     // 
     this.anims.create({
-        key: 'death',
-        frames: [{ key: 'player', frame: 'p1_death' }],
+        key: 'jump2',
+        frames: [{ key: 'player', frame: 'mario_l_jump' }], // p1_jump
         frameRate: 10,
     });
+    // 3
+    this.anims.create({
+        key: 'walk3',
+        frames: this.anims.generateFrameNames('player', { prefix: 'mario_f_walk', start: 1, end: 3, zeroPad: 2 }), // p1_walk
+        frameRate: 10,
+        repeat: -1
+    });
+    // idle with only one frame, so repeat is not neaded
+    this.anims.create({
+        key: 'idle3',
+        frames: [{ key: 'player', frame: 'mario_f_idle' }], // p1_stand
+        frameRate: 10,
+    });
+    // 
+    this.anims.create({
+        key: 'jump3',
+        frames: [{ key: 'player', frame: 'mario_f_jump' }], // p1_jump
+        frameRate: 10,
+    });
+    this.anims.create({
+        key: 'throw',
+        frames: [{ key: 'player', frame: 'mario_f_throw' }], // p1_jump
+        frameRate: 10,
+    });
+    // 
+
+    ///FIREBALL
+    this.anims.create({
+        key: 'fireball',
+        frames: this.anims.generateFrameNames('fireball', { prefix: 'fire_', start: 1, end: 4, zeroPad: 2 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
     ///GUMBA
     this.anims.create({
         key: 'gumbadeath',
         frames: [{ key: 'gumba', frame: 'sprite25' }],
     })
+
     ///TILES
     this.anims.create({
         key: 'tiles_on',
@@ -197,9 +317,11 @@ function create() {
     // GESTION DE CAMERA
     // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // make the camera follow the player
-    this.cameras.main.startFollow(player);
-    // set background color, so the sky is not black    
+    // Zoom
+    this.cameras.main.setZoom(1);
+    // make the camera follow the player 
+    this.cameras.main.startFollow(player, false, 0, 0, 0, 0);
+    // set background color, so the sky is not black
     this.cameras.main.setBackgroundColor('#ccccff');
     // à coriger
     this.cameras.main.fadeIn(1000);
@@ -214,13 +336,23 @@ function create() {
     // fix the text to the camera
     text.setScrollFactor(0);
 
-    lifecount = this.add.text(100, 570, "" + player.lifescore + "", {
+    lifecount = this.add.text(760, 20, "" + player.lifescore + "", {
         fontSize: '20px',
         fill: '#ffffff'
     });
     // fix the text to the camera
     lifecount.setScrollFactor(0);
 
+    ///GameOver
+    this.winGameText = this.add.text(400, 200, "FELICITATION", {
+        fontSize: '100px',
+        fill: '#ff0000',
+    });
+    this.winGameText.setOrigin(0.5);
+    this.winGameText.depth = 2;
+    this.winGameText.visible = false;
+    this.winGameText.setScrollFactor(0);
+    this.winGameText.setStroke('#000', 5)
     ///GameOver
     this.gameOverText = this.add.text(400, 200, "GAME OVER", {
         fontSize: '100px',
@@ -307,13 +439,10 @@ function breackBrick(sprite, tile) {
 
 }
 
-function bonus(main, tile) {
-    // var mushroom2 = main.physics.add.sprite(tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
-    // main.physics.add.collider(groundLayer, mushroom2);
-    // mushroom2.setCollideWorldBounds(true);
-    // move(mushroom2);
+function bonus(main, tile, groundLayer) {
+    console.log("bonus");
     if (player.level == 1) {
-        var mushroom = new Mushroom(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'mushroom');
+        var mushroom = new Mushroom(main, groundLayer, tile.x, tile.y - 64, 'mushroom');
         var bonus = mushroom.bonus;
         if (!main.mushrooms) {
             main.mushrooms = [];
@@ -322,12 +451,14 @@ function bonus(main, tile) {
         main.mushrooms.push(mushroom);
         console.log(bonus.name);
     } else if (player.level == 2) {
-        var flower = new Bonus(main, groundLayer, tile.x * 64 + 32, tile.y * 64 + 32 - 64, 'flower');
+        console.log(groundLayer);
+        var flower = new Bonus(main, groundLayer, tile.x, tile.y - 64, 'flower', false);
         var bonus = flower.bonus;
     } else {
         return
     }
 
+    console.log(tile.x * 64 + 32, tile.y);
     main.physics.add.overlap(player, bonus, (player, bonus) => {
         console.log("Y'a contact");
         if (bonus.name == "mushroom" || bonus.name == "flower") {
@@ -356,9 +487,11 @@ function collectCoin(sprite, tile) {
 
 function update(time, delta) {
 
-    if (this.gameOver && cursors.space.isDown) {
+    // console.log(player.body.touching.down);
+
+    if ((this.gameOver || this.winGame) && cursors.space.isDown) {
         mario.restartScene(this);
-    } else if (this.gameOver) {
+    } else if (this.gameOver || this.winGame) {
         return
     }
 
@@ -378,7 +511,10 @@ function update(time, delta) {
 
     //this.koopa1.ShellMovement();
     // MarioMove(player, cursors);
-    mario.playerMove(player, cursors, this);
+    mario.playerMove(cursors);
+
+    // Flower Mario Throw Fire
+    mario.playerThrow(cursors);
 
     // MarioDeath(player);
     mario.playerDeath(player, this,this.koopa1.enemy);
