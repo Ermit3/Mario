@@ -6,7 +6,7 @@ function transformation(type, player, main) {
         if (i % 2 == 0) {
             var transformation1 = setTimeout(() => {
                 if (type == "levelUP") {
-                    player.setScale(1);
+                    player.setScale(0.8);
                 } else if (type == "isGhost") {
                     player.alpha = 1;
                 }
@@ -17,6 +17,7 @@ function transformation(type, player, main) {
                     } else if (type == "isGhost") {
                         player.isGhost = false;
                     }
+                    player.body.setSize(player.width, player.height, true)
                     clearTimeout(transformation1)
                 }
             }, i * 100);
@@ -61,7 +62,7 @@ export default class Mario {
         this.player.setCollideWorldBounds(true);
         this.main.physics.add.collider(this.groundLayer, this.player);
         this.player.depth = 1; // z-index du texte
-        this.player.level = 3; //
+        this.player.level = 1; //
         this.player.counter = 0;
         this.player.isAlive = true;
         this.player.isGhost = false;
@@ -77,41 +78,55 @@ export default class Mario {
             available: true,
             date: Date.now()
         }
-        console.log(this.player.direction);
+        this.walk = "walk"
+        this.idle = "idle"
+        this.jump = "jump"
+        if (this.player.level >= 1) {
+            this.player.setScale(0.8)
+        }
         // (this.player.level == 1) ? this.player.setScale(0.7) : this.player.setScale(0.9)
     }
 
     playerMove(cursors) {
         if (this.player.isAlive) {
+            if (this.player.level == 2) {
+                this.walk = "walk2"
+                this.idle = "idle2"
+                this.jump = "jump2"
+            } else if (this.player.level === 3) {
+                this.walk = "walk3"
+                this.idle = "idle3"
+                this.jump = "jump3"
+            }
             if (cursors.left.isDown && cursors.space.isUp) {
                 this.player.body.setVelocityX(-200);
-                this.player.anims.play('walk', true); // walk left
+                this.player.anims.play(this.walk, true); // walk left
                 this.player.flipX = true; // flip the sprite to the left
                 this.player.direction = "left";
             } else if (cursors.right.isDown && cursors.space.isUp) {
                 this.player.body.setVelocityX(200);
-                this.player.anims.play('walk', true);
+                this.player.anims.play(this.walk, true);
                 this.player.flipX = false; // use the original sprite looking to the right
                 this.player.direction = "right";
             } else if (cursors.left.isDown && cursors.space.isDown) {
                 this.player.body.setVelocityX(-400);
-                this.player.anims.play('walk', true);
+                this.player.anims.play(this.walk, true);
                 this.player.flipX = true; // use the original sprite looking to the right
                 this.player.direction = "left";
             } else if (cursors.right.isDown && cursors.space.isDown) {
                 this.player.body.setVelocityX(400);
-                this.player.anims.play('walk', true);
+                this.player.anims.play(this.walk, true);
                 this.player.flipX = false; // use the original sprite looking to the right
                 this.player.direction = "right";
             } else {
                 this.player.body.setVelocityX(0);
-                this.player.anims.play('idle', true);
+                this.player.anims.play(this.idle, true);
             }
             // jump
-            if (!this.player.body.onFloor()) {
-                this.player.anims.play('jump', true); // Active when player not on the ground
+            if (!this.player.body.onFloor() && !this.player.body.touching.down) {
+                this.player.anims.play(this.jump, true); // Active when player not on the ground
             }
-            if (cursors.up.isDown && this.player.body.onFloor()) {
+            if (cursors.up.isDown && (this.player.body.onFloor() || this.player.body.touching.down)) {
                 this.player.body.setVelocityY(-630);
             }
         }
@@ -167,7 +182,7 @@ export default class Mario {
             }
             if (player.y + 15.5 >= enemy.y && player.isAlive == true && player.isGhost === false) {
                 player.enemyTouch = true;
-                console.log("touch");
+                // console.log("touch");
             }
         });
     }
@@ -201,7 +216,7 @@ export default class Mario {
                 // }, 1500);
             }
         }
-        if (player.y == 832) {
+        if (player.y >= 780.64) {
             player.isAlive = false;
             player.body.setVelocityX(0);
             // player.body.setVelocityY(-50);
@@ -224,6 +239,9 @@ export default class Mario {
             this.player.level = 3;
             this.player.lifescore = 2;
         }
+        setTimeout(() => {
+            this.player.body.setSize(player.width, player.height, true)
+        }, 100)
     }
 
     restartScene(main) {
