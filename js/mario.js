@@ -38,15 +38,7 @@ function transformation(type, player, main) {
     }
 }
 
-function posiMario(){
-    if(player.y >= 400){
-        player.positionMario == 'left';
-    }
-    if(player.y < 400){
-        player.positionMario =='right';
-    }
 
-}
 // Fonction de frame d'invisibilité
 function _isGhost(player) {
     player.isGhost = true;
@@ -78,7 +70,6 @@ export default class Mario {
         this.player.isGhost = false;
         this.player.setScale(0.8);
         this.player.direction = "right";
-        this.player.positionMario="left";
         setTimeout(() => {
             this.player.body.setSize(player.width, player.height, true)
         }, 100)

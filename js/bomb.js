@@ -12,11 +12,11 @@ export default class Bomb{
     }
 
     moveBomb(){
-        if(positionMario =='left'){
+        if(player.y >= 400){
             this.bomb.body.setVelocityX(-100);
             this.bomb.anims.play('bombleft', true);
         }
-        if(positionMArio=='right'){
+        if(player.y<400){
             this.bomb.body.setVelocityX(100);
             this.bomb.anims.play('bombright', true);
         }
