@@ -59,6 +59,9 @@ function preload() {
     this.load.image('coin', 'assets/coinGold.png');
     // fireball
     this.load.atlas('fireball', 'assets/fireball_01.png', 'assets/fireball_01.json');
+    //Bomb
+    this.load.image('bombplat','assets/bombplat.png',{frameWidth:16});
+    this.load.atlas('bomb','assets/bombasprite.png','assets/bombasprite.json');
     // player animations
     this.load.atlas('player', 'assets/mario_complete.png', 'assets/mario_complete.json');
     this.load.atlas('gumba', 'assets/spritegumba.png', 'assets/spritegumba.json');
@@ -125,6 +128,8 @@ function create() {
         });
     })
 
+    //Bomb plateforme
+    const bombplat = add.physics.sprite('bombplat',500,400);
 
     // Bricks
     bricksLayer.forEach(brick => {
