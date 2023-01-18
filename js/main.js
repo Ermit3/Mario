@@ -295,12 +295,12 @@ function create() {
     //Bomb
     this.anims.create({
         key:'bombright',
-        frames:[{keey:'bomb',frame:'bombright'}]
+        frames:[{key:'bomb',frame:'bombright'}]
     });
 
     this.anims.create({
         key:'bombleft',
-        frames:[{keey:'bomb',frame:'bombleft'}]
+        frames:[{key:'bomb',frame:'bombleft'}]
     });
 
     ///FIREBALL
