@@ -6,15 +6,17 @@ export default class Bomb{
         main.physics.add.collider(groundLayer, this.bomb);
         this.moveBomb();
         this.main = main;
+        this.groundLayer=groundLayer;
+        this.bombplat=bombplat;
         console.log(main);
     }
 
     moveBomb(){
-        if(this.main.player.y >= 400){
+        if(positionMario =='left'){
             this.bomb.body.setVelocityX(-100);
             this.bomb.anims.play('bombleft', true);
         }
-        if(this.main.player.y <= 400){
+        if(positionMArio=='right'){
             this.bomb.body.setVelocityX(100);
             this.bomb.anims.play('bombright', true);
         }

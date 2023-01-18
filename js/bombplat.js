@@ -7,6 +7,8 @@ export default class BombPlat{
         // 400, 675
         this.bombplat.setCollideWorldBounds(true);
         main.physics.add.collider(main.groundLayer, this.bombplat);
+        this.main = main;
+        this.groundLayer=this.groundLayer;
     }
 
 
