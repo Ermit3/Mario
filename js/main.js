@@ -4,6 +4,8 @@ import Mario from './mario';
 import Enemy from './enemy';
 import Mushroom from './mushroom';
 import Bonus from "./bonus";
+import Bomb from "./Bomb";
+import BombPlat from './bombplat';
 
 var config = {
     type: Phaser.AUTO,
@@ -80,7 +82,7 @@ function create() {
     const backgroundLayer = map.createDynamicLayer('backgroundLayer', groundTiles, 0, 0);
     const decorationLayer = map.createDynamicLayer('decorationLayer', groundTiles, 0, 0);
     const groundLayer = map.createStaticLayer('groundLayer', groundTiles, 0, 0);
-
+    this.groundLayer = groundLayer;
     const poleLayer = map.createFromObjects('poleLayer', 'pole', { key: 'bonusTileOff' })
     const bricksLayer = map.createFromObjects('bricksLayer', 'brick', { key: 'brickTile' })
     const boxLayer = map.createFromObjects('bricksLayer', 'box', { key: 'bonusTile' })
@@ -114,6 +116,7 @@ function create() {
     mario = new Mario(this, groundLayer, 50, 600);
     player = mario.player;
     window.player = player;
+    this.player = player;
 
     // Pole
     poleLayer.forEach(pole => {
@@ -129,7 +132,8 @@ function create() {
     })
 
     //Bomb plateforme
-    let bombplat1 = this.add.sprite(400, 675, 'bombplat');
+    //let bombplat1 = this.add.sprite(400, 675, 'bombplat');
+    this.bombplat1 = new BombPlat(this,400,675);
 
     // Bricks
     bricksLayer.forEach(brick => {
@@ -502,7 +506,7 @@ function collectCoin(sprite, tile) {
 }
 
 function update(time, delta) {
-
+    
     // console.log(player.body.touching.down);
 
     if ((this.gameOver || this.winGame) && cursors.space.isDown) {
@@ -532,7 +536,9 @@ function update(time, delta) {
     // Flower Mario Throw Fire
     mario.playerThrow(cursors);
 
-    mario.MarioBomb();
+    //LauchBombs
+    this.bombplat1.LaunchBomb();
+    
     // MarioDeath(player);
     mario.playerDeath(player, this,this.koopa1.enemy);
 

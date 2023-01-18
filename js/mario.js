@@ -133,12 +133,6 @@ export default class Mario {
         }
     }
 
-    MarioBomb(){
-        if(this.player.y >= 400){
-            console.log(this.player.y);
-            this.player.bomb = new Bomb(this.main , this.groundLayer,this.player)
-        }
-    }
 
     playerThrow(cursors) {
         if (!this.DOWN) {
