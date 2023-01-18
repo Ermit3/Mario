@@ -129,7 +129,7 @@ function create() {
     })
 
     //Bomb plateforme
-    const bombplat = add.physics.sprite('bombplat',500,400);
+    let bombplat1 = this.add.sprite(400, 675, 'bombplat');
 
     // Bricks
     bricksLayer.forEach(brick => {
@@ -291,6 +291,17 @@ function create() {
         frameRate: 10,
     });
     // 
+
+    //Bomb
+    this.anims.create({
+        key:'bombright',
+        frames:[{keey:'bomb',frame:'bombright'}]
+    });
+
+    this.anims.create({
+        key:'bombleft',
+        frames:[{keey:'bomb',frame:'bombleft'}]
+    });
 
     ///FIREBALL
     this.anims.create({
@@ -521,6 +532,7 @@ function update(time, delta) {
     // Flower Mario Throw Fire
     mario.playerThrow(cursors);
 
+    mario.MarioBomb();
     // MarioDeath(player);
     mario.playerDeath(player, this,this.koopa1.enemy);
 

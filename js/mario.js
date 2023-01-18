@@ -1,3 +1,4 @@
+import Bomb from "./bomb";
 import Fire from "./fire";
 
 function transformation(type, player, main) {
@@ -132,6 +133,13 @@ export default class Mario {
         }
     }
 
+    MarioBomb(){
+        if(this.player.y <= 400){
+            console.log(this.player.y);
+            this.player.bomb = new Bomb(this.main , this.groundLayer,this.player)
+        }
+    }
+
     playerThrow(cursors) {
         if (!this.DOWN) {
             this.DOWN = this.main.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -243,6 +251,9 @@ export default class Mario {
             this.player.body.setSize(player.width, player.height, true)
         }, 100)
     }
+
+
+    
 
     restartScene(main) {
         main.scene.start('main');
