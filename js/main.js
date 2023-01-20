@@ -133,7 +133,7 @@ function create() {
 
     //Bomb plateforme
     //let bombplat1 = this.add.sprite(400, 675, 'bombplat');
-    this.bombplat1 = new BombPlat(this,400,675);
+    this.bombplat1 = new BombPlat(this,300,675);
 
     // Bricks
     bricksLayer.forEach(brick => {

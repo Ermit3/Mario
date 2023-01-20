@@ -14,17 +14,17 @@ export default class Bomb{
     }
 
     moveBomb(){
-        if(player.y >= 400){
-            this.bomb.body.setVelocityX(-100);
+        if(player.x < 650){
+            this.bomb.body.setVelocityX(-300);
             this.bomb.anims.play('bombleft', true);
         }
-        if(player.y<400){
-            this.bomb.body.setVelocityX(100);
+        if(player.x>=650){
+            this.bomb.body.setVelocityX(300);
             this.bomb.anims.play('bombright', true);
         }
-         setTimeout(() => {
+        setTimeout(() => {
             this.bomb.destroy()
-        }, 2000) 
+        }, 10000) 
     }
 
 

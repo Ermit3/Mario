@@ -2,6 +2,7 @@
 import Bomb from './Bomb';
 
 export default class BombPlat{
+    bomba = Date.now();
     constructor(main,groundLayer, x,y){
         //console.log('ici');
         this.bombplat = main.physics.add.sprite(x,y, 'bombplat');
@@ -10,6 +11,10 @@ export default class BombPlat{
         main.physics.add.collider(main.groundLayer, this.bombplat);
         this.main = main;
         this.groundLayer= groundLayer;
+        this.bombplat.bomba = {
+            available: true,
+            date: Date.now()
+        }
     }
 
 
@@ -27,15 +32,9 @@ export default class BombPlat{
     } */
     
      LaunchBomb(){
-        //console.log('here bro');
-        //console.log(player);
-        /* if(player.y >= 400){
+        if (this.bombplat.bomba.date + 5000 < (Date.now())) {
+            this.bombplat.bomba.date = Date.now()
             this.bombplat.bomb = new Bomb(this.main, this.groundLayer,this.bombplat);
-        }
-        if(player.y <= 400){ 
-        }  */
-        
-        this.bombplat.bomb = new Bomb(this.main, this.groundLayer,this.bombplat);
-        
+        }        
     } 
 }
