@@ -4,11 +4,13 @@ export default class Bomb{
         this.bomb = main.physics.add.sprite(bombplat.x,bombplat.y, 'bomb');
         this.bomb.setCollideWorldBounds(true);
         main.physics.add.collider(groundLayer, this.bomb);
+        this.bomb.body.allowGravity = false;
         this.moveBomb();
         this.main = main;
         this.groundLayer=groundLayer;
         this.bombplat=bombplat;
-        console.log(main);
+        
+   
     }
 
     moveBomb(){
@@ -20,9 +22,9 @@ export default class Bomb{
             this.bomb.body.setVelocityX(100);
             this.bomb.anims.play('bombright', true);
         }
-        setTimeout(() => {
+         setTimeout(() => {
             this.bomb.destroy()
-        }, 2000)
+        }, 2000) 
     }
 
 

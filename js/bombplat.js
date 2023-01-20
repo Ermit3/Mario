@@ -1,14 +1,15 @@
+
 import Bomb from './Bomb';
 
 export default class BombPlat{
-    constructor(main, x,y){
-        console.log('ici');
+    constructor(main,groundLayer, x,y){
+        //console.log('ici');
         this.bombplat = main.physics.add.sprite(x,y, 'bombplat');
         // 400, 675
         this.bombplat.setCollideWorldBounds(true);
         main.physics.add.collider(main.groundLayer, this.bombplat);
         this.main = main;
-        this.groundLayer=this.groundLayer;
+        this.groundLayer= groundLayer;
     }
 
 
@@ -25,14 +26,16 @@ export default class BombPlat{
         }
     } */
     
-    LaunchBomb(){
+     LaunchBomb(){
         //console.log('here bro');
         //console.log(player);
         /* if(player.y >= 400){
             this.bombplat.bomb = new Bomb(this.main, this.groundLayer,this.bombplat);
         }
         if(player.y <= 400){ 
-        } */
+        }  */
+        
         this.bombplat.bomb = new Bomb(this.main, this.groundLayer,this.bombplat);
-    }
+        
+    } 
 }
