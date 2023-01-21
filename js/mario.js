@@ -190,6 +190,11 @@ export default class Mario {
         });
     }
 
+
+    
+
+
+
     playerDeath(player, main,enemy) {
         if (player.enemyTouch === true && player.isGhost == false && enemy.enemyAlive == true) {
             if (player.lifescore > 0) {

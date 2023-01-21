@@ -190,6 +190,7 @@ function create() {
     mario.collideWithEnemy(this, this.gumba2.gumba); */
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
+    //mario.collideWithEnemy(this, this.bomb,'bombdisappear');
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
 
@@ -305,6 +306,11 @@ function create() {
     this.anims.create({
         key:'bombleft',
         frames:[{key:'bomb',frame:'bombleft'}]
+    });
+
+    this.anims.create({
+        key:'bombdisappear',
+        frames:[{key:'bomb',frame:'bombzero'}]
     });
 
     ///FIREBALL
