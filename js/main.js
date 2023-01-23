@@ -175,7 +175,7 @@ function create() {
 
     //KOOPA
     this.koopa1 = new Enemy(this, groundLayer, 400, 600, 'koopa');
-    this.koopa = new Enemy(this, groundLayer, 500, 600, 'koopa');
+    this.koopa2 = new Enemy(this, groundLayer, 500, 600, 'koopa');
 
     /// GUMBA
     this.gumba3 = new Enemy(this, groundLayer, 200, 600, 'gumba');
@@ -190,6 +190,7 @@ function create() {
     mario.collideWithEnemy(this, this.gumba2.gumba); */
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
+    mario.collideWithEnemy(this, this.koopa2.enemy,'koopadeath');
     //mario.collideWithEnemy(this, this.bomb,'bombdisappear');
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
@@ -530,6 +531,7 @@ function update(time, delta) {
     }
 
     this.koopa1.changeDirectionKoopa();
+    this.koopa2.changeDirectionKoopa();
 
     /* this.gumba1.changeDirection(this.gumba1);
     this.gumba2.changeDirection(this.gumba2); */
@@ -547,6 +549,7 @@ function update(time, delta) {
     
     // MarioDeath(player);
     mario.playerDeath(player, this,this.koopa1.enemy);
+    mario.playerDeath(player, this,this.koopa2.enemy);
 
     // mario.playerDead(player);
 }
