@@ -191,6 +191,7 @@ function create() {
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
     mario.collideWithEnemy(this, this.koopa2.enemy,'koopadeath');
+    //this.koopa1.CollideShellGumba();
     //mario.collideWithEnemy(this, this.bomb,'bombdisappear');
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);

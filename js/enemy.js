@@ -52,7 +52,9 @@ export default class Enemy{
 
     CollideShellGumba(){
         main.physics.add.overlap(this.koopa, this.gumba, function (koopa, gumba){
-            
+            if(enemy.koopaShell >=3){
+                console.log('shell');
+            }
         })
     }
 
