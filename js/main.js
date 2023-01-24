@@ -6,6 +6,7 @@ import Mushroom from './mushroom';
 import Bonus from "./bonus";
 import Bomb from "./Bomb";
 import BombPlat from './bombplat';
+import Fire from './fire';
 
 var config = {
     type: Phaser.AUTO,
@@ -49,7 +50,7 @@ function preload() {
     // tiles
     this.load.image('tileset_x4', 'assets/tileset_x4.png', { frameWidth: 16 });
     this.load.image('bonusTile', 'assets/m_box.png', { frameWidth: 16 });
-    this.load.image('bonusTileOff', 'assets/bonusTileOff.png', { frameWidth: 16 });
+    this.load.image('bonusTileOff', 'assets/m_box_off.png', { frameWidth: 16 });
     this.load.image('brickTile', 'assets/brickTile.png', { frameWidth: 16 });
     this.load.image('breackbrick1', 'assets/breackbrick1.png', { frameWidth: 16 });
     this.load.image('breackbrick2', 'assets/breackbrick2.png', { frameWidth: 16 });
@@ -86,10 +87,11 @@ function create() {
     const poleLayer = map.createFromObjects('poleLayer', 'pole', { key: 'bonusTileOff' })
     const bricksLayer = map.createFromObjects('bricksLayer', 'brick', { key: 'brickTile' })
     const boxLayer = map.createFromObjects('bricksLayer', 'box', { key: 'bonusTile' })
-    this.bricksLayer = bricksLayer;
-    this.boxLayer = boxLayer;
 
-    console.log(boxLayer);
+    this.groundLayer = groundLayer
+    this.bricksLayer = bricksLayer
+    this.boxLayer = boxLayer
+
     // const colude = map.setCollisionFromCollisionGroup(true, true, bricksLayer)
     // console.log(colude);
 
@@ -154,31 +156,49 @@ function create() {
     })
 
     boxLayer.forEach(brick => {
+        // Parametre de la box
         this.physics.world.enable(brick);
         brick.body.allowGravity = false;
         brick.body.immovable = true;
         brick.body.actived = true;
         brick.body.setSize(brick.width, brick.height, true);
+        // Initialisation de la off Box
+        brick.offBox = this.add.image(brick.x, brick.y, 'bonusTileOff')
+        brick.offBox.visible = false;
+        // Fonction de colision
         this.physics.add.collider(player, brick, (_player, _box) => {
             if (_player.body.touching.up && _box.body.touching.down && brick.body.actived) {
                 if (_player.level < 3) {
                     bonus(this, _box, groundLayer);
-                    brick.body.actived = false;
                 } else {
 
                 }
+                brick.body.actived = false;
+                brick.visible = false;
+                brick.offBox.visible = true;
             }
         });
     })
 
+    // GROUP
+    this.enemiesGroup = this.add.group();
+    this.enemiesGroup.enableBody = true
+    this.enemiesGroup.physicsBodyType = Phaser.Physics.ARCADE
+    this.fireballsGroup = this.add.group();
+    this.fireballsGroup.enableBody = true
+    this.fireballsGroup.physicsBodyType = Phaser.Physics.ARCADE
+
     //ENEMY
 
     //KOOPA
+    this.enemies = [];
     this.koopa1 = new Enemy(this, groundLayer, 400, 600, 'koopa');
-    this.koopa = new Enemy(this, groundLayer, 500, 600, 'koopa');
+    // this.enemiesGroup.create(this.koopa1)
+    this.enemies.push(this.koopa1)
 
     /// GUMBA
     this.gumba3 = new Enemy(this, groundLayer, 200, 600, 'gumba');
+    this.enemies.push(this.gumba3)
     /* this.gumba1 = new Gumba(this, groundLayer, 100, 550,'gumba');
     this.gumba2 = new Gumba(this, groundLayer, 300, 550,'gumba'); */
     // FIN APPARITION //
@@ -190,6 +210,8 @@ function create() {
     mario.collideWithEnemy(this, this.gumba2.gumba); */
     mario.collideWithEnemy(this, this.gumba3.enemy, 'gumbadeath');
     mario.collideWithEnemy(this, this.koopa1.enemy, 'koopadeath');
+
+
 
     //mario.collideWithKoopa(this, this.koopa1.koopa);
 

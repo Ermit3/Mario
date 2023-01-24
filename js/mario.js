@@ -135,6 +135,7 @@ export default class Mario {
     }
 
 
+    // Lance les boules de feu
     playerThrow(cursors) {
         if (!this.DOWN) {
             this.DOWN = this.main.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -144,10 +145,13 @@ export default class Mario {
                 this.player.fire.date = Date.now()
                 this.player.anims.play('throw', true);
                 this.player.fireball = new Fire(this.main, this.groundLayer, this.player)
+                this.main.fireballsGroup.create(this.player.fireball)
+                console.log(this.main.fireballsGroup);
             }
         }
     }
 
+    // Action quand player et enemy ce touche
     collideWithEnemy(main, enemy, death) {
         main.physics.add.overlap(this.player, enemy, function (player, enemy) {
             if (player.y + 15.5 < enemy.y && player.isAlive == true) {
@@ -190,6 +194,7 @@ export default class Mario {
         });
     }
 
+    // Lance animation de mort
     playerDeath(player, main,enemy) {
         if (player.enemyTouch === true && player.isGhost == false && enemy.enemyAlive == true) {
             if (player.lifescore > 0) {
@@ -233,6 +238,7 @@ export default class Mario {
         }
     }
 
+    // Action quand un bonus est pris
     levelUp(main, bonus) {
         if (this.player.level == 1 && bonus.name == "mushroom") {
             _levelUp(this.player, main)
@@ -246,9 +252,6 @@ export default class Mario {
             this.player.body.setSize(player.width, player.height, true)
         }, 100)
     }
-
-
-    
 
     restartScene(main) {
         main.scene.start('main');
