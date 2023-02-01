@@ -172,6 +172,7 @@ function create() {
     })
 
     //ENEMY
+    this.physics.add.collider(this.koopa1, this.gumba3 );
 
     //KOOPA
     this.koopa1 = new Enemy(this, groundLayer, 400, 600, 'koopa');
