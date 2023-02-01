@@ -10,7 +10,17 @@ export default class Bomb{
         this.groundLayer=groundLayer;
         this.bombplat=bombplat;
         
-   
+        this.player = main.player;
+        console.log(main.player);
+        this.collideMario();
+    }
+
+    collideMario(){
+        console.log(this.player);
+        this.main.physics.add.overlap(this.bomb, this.player, function (_bomb,_player){
+            console.log('ici');
+        }
+        )
     }
 
     moveBomb(){

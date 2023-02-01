@@ -5,6 +5,7 @@ export default class BombPlat{
     bomba = Date.now();
     constructor(main,groundLayer, x,y){
         //console.log('ici');
+        //this.player = player;
         this.bombplat = main.physics.add.sprite(x,y, 'bombplat');
         // 400, 675
         this.bombplat.setCollideWorldBounds(true);
