@@ -86,6 +86,11 @@ export default class Mario {
         if (this.player.level >= 1) {
             this.player.setScale(0.8)
         }
+        
+        /* this.player.DeathMarioAnimation = () => {
+            this.DeathMarioAnimation();
+        };
+        console.log(this.player.DeathMarioAnimation()); */
         // (this.player.level == 1) ? this.player.setScale(0.7) : this.player.setScale(0.9)
     }
 
@@ -237,6 +242,16 @@ export default class Mario {
             main.physics.pause();
         }
     }
+
+   /*  DeathMarioAnimation(){
+        this.player.isAlive = false;
+        this.player.body.setVelocityX(0);
+        this.player.anims.play('death', true);
+        this.main.gameOver = true;
+        this.main.gameOverText.visible = true;
+        this.main.restartText.visible = true;
+        this.main.physics.pause();
+    } */
 
     levelUp(main, bonus) {
         if (this.player.level == 1 && bonus.name == "mushroom") {

@@ -9,16 +9,24 @@ export default class Bomb{
         this.main = main;
         this.groundLayer=groundLayer;
         this.bombplat=bombplat;
-        
         this.player = main.player;
+        this.player.myscene = main;
         console.log(main.player);
         this.collideMario();
     }
 
     collideMario(){
-        console.log(this.player);
+        //console.log(this.player);
         this.main.physics.add.overlap(this.bomb, this.player, function (_bomb,_player){
-            console.log('ici');
+            //console.log(_player);
+            _player.isAlive = false;
+            _player.body.setVelocityX(0);
+            _player.anims.play('death', true);
+            _player.myscene.gameOver = true;
+            _player.myscene.gameOverText.visible = true;
+            _player.myscene.restartText.visible = true;
+            _player.myscene.physics.pause();
+            console.log('ici');    
         }
         )
     }
